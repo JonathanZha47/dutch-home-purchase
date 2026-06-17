@@ -1,0 +1,100 @@
+{
+  "reference_m2": 85,
+  "base_overbid_pct": {
+    "GM0363": 0.035,
+    "GM0394": 0.045,
+    "GM0479": 0.05,
+    "GM0513": 0.03,
+    "PV27": 0.045,
+    "PV28": 0.038,
+    "NL01": 0.04
+  },
+  "municipality_map": {
+    "Amsterdam": "GM0363",
+    "Hoofddorp": "GM0394",
+    "Haarlemmermeer": "GM0394",
+    "Zaandam": "GM0479",
+    "Zaanstad": "GM0479",
+    "Gouda": "GM0513"
+  },
+  "postcode_profiles": {
+    "1102": {
+      "profile": "bijlmer_hoptille",
+      "notes": "Hoptille / near social housing"
+    },
+    "1103": { "profile": "bijlmer_core" },
+    "2132": { "profile": "hoofddorp_central" },
+    "2134": { "profile": "hoofddorp_floriande" },
+    "1507": { "profile": "zaandam_residential" },
+    "2807": { "profile": "gouda_residential" }
+  },
+  "neighborhood_profiles": {
+    "bijlmer_hoptille": {
+      "cbs_region": "GM0363",
+      "municipality_label": "Amsterdam",
+      "neighborhood_factor": 0.58,
+      "overbid_adjustment": -0.025,
+      "competition_factor": 0.68,
+      "tags": ["social_housing_nearby", "weak_area"]
+    },
+    "bijlmer_core": {
+      "cbs_region": "GM0363",
+      "municipality_label": "Amsterdam",
+      "neighborhood_factor": 0.68,
+      "overbid_adjustment": -0.01,
+      "competition_factor": 0.75,
+      "tags": ["metro_hub", "mixed_area"]
+    },
+    "hoofddorp_central": {
+      "cbs_region": "GM0394",
+      "municipality_label": "Haarlemmermeer",
+      "neighborhood_factor": 0.78,
+      "overbid_adjustment": 0.005,
+      "competition_factor": 0.7,
+      "tags": ["expat_demand", "airport_noise_risk"]
+    },
+    "hoofddorp_floriande": {
+      "cbs_region": "GM0394",
+      "municipality_label": "Haarlemmermeer",
+      "neighborhood_factor": 0.88,
+      "overbid_adjustment": 0.0,
+      "competition_factor": 0.68,
+      "tags": []
+    },
+    "zaandam_residential": {
+      "cbs_region": "GM0479",
+      "municipality_label": "Zaanstad",
+      "neighborhood_factor": 0.92,
+      "overbid_adjustment": 0.0,
+      "competition_factor": 0.72,
+      "tags": []
+    },
+    "gouda_residential": {
+      "cbs_region": "GM0513",
+      "municipality_label": "Gouda",
+      "neighborhood_factor": 0.9,
+      "overbid_adjustment": -0.01,
+      "competition_factor": 0.45,
+      "tags": []
+    }
+  },
+  "tag_overbid_adjustments": {
+    "social_housing_nearby": -0.015,
+    "weak_area": -0.01,
+    "premium_new_build": 0.015,
+    "private_garage": 0.008,
+    "erfpacht_trap": -0.01
+  },
+  "energy_factors": {
+    "A++": 1.08,
+    "A+": 1.06,
+    "A": 1.03,
+    "B": 1.0,
+    "C": 0.92,
+    "D": 0.85
+  },
+  "age_factors": {
+    "min_year": 2000,
+    "factor_if_below": 0.92
+  }
+}

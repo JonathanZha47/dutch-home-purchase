@@ -1,0 +1,106 @@
+# Level 1 pricing model — CBS municipal averages + regional overbid + neighborhood adjustments.
+# Refresh CBS figures: python3 scripts/fetch_cbs_market.py
+
+reference_m2: 85          # typical Dutch apartment size for scaling municipal averages
+
+# Base overbid rate (2025–2026 cooled market; sources: NVM Q1 2026 ~3.7%, regional spreads)
+# Applied on top of asking when market is competitive.
+base_overbid_pct:
+  GM0363: 0.035             # Amsterdam municipality
+  GM0394: 0.045             # Haarlemmermeer (Hoofddorp) — expat demand
+  GM0479: 0.050             # Zaanstad — popular with Amsterdam overflow
+  GM0513: 0.030             # Gouda — weaker demand
+  PV27: 0.045               # Noord-Holland province fallback
+  PV28: 0.038               # Zuid-Holland province fallback
+  NL01: 0.040               # National fallback
+
+# Map city names / aliases → CBS region key (83625ENG)
+municipality_map:
+  Amsterdam: GM0363
+  Hoofddorp: GM0394
+  Haarlemmermeer: GM0394
+  Zaandam: GM0479
+  Zaanstad: GM0479
+  Gouda: GM0513
+
+# Postcode prefix → neighborhood profile (within a municipality)
+postcode_profiles:
+  "1102":
+    profile: bijlmer_hoptille
+    notes: "Hoptille / near social housing; weaker micro-location vs Amsterdam avg"
+  "1103":
+    profile: bijlmer_core
+  "2132":
+    profile: hoofddorp_central
+  "2134":
+    profile: hoofddorp_floriande
+  "1507":
+    profile: zaandam_residential
+  "2807":
+    profile: gouda_residential
+
+neighborhood_profiles:
+  bijlmer_hoptille:
+    cbs_region: GM0363
+    municipality_label: Amsterdam
+    neighborhood_factor: 0.58       # micro-location discount vs municipal mean
+    overbid_adjustment: -0.025      # less bidding pressure
+    competition_factor: 0.65        # share of (market_value - asking) gap to capture
+    tags: [social_housing_nearby, weak_area]
+
+  bijlmer_core:
+    cbs_region: GM0363
+    municipality_label: Amsterdam
+    neighborhood_factor: 0.68
+    overbid_adjustment: -0.010
+    competition_factor: 0.75
+    tags: [metro_hub, mixed_area]
+
+  hoofddorp_central:
+    cbs_region: GM0394
+    municipality_label: Haarlemmermeer
+    neighborhood_factor: 0.95
+    overbid_adjustment: 0.005
+    competition_factor: 0.70
+    tags: [expat_demand, airport_noise_risk]
+
+  hoofddorp_floriande:
+    cbs_region: GM0394
+    municipality_label: Haarlemmermeer
+    neighborhood_factor: 0.88
+    overbid_adjustment: 0.0
+    competition_factor: 0.68
+
+  zaandam_residential:
+    cbs_region: GM0479
+    municipality_label: Zaanstad
+    neighborhood_factor: 0.92
+    overbid_adjustment: 0.0
+    competition_factor: 0.72
+
+  gouda_residential:
+    cbs_region: GM0513
+    municipality_label: Gouda
+    neighborhood_factor: 0.90
+    overbid_adjustment: -0.010
+    competition_factor: 0.45
+
+# Listing-level tag adjustments (additive to overbid_adjustment)
+tag_overbid_adjustments:
+  social_housing_nearby: -0.015
+  weak_area: -0.010
+  premium_new_build: 0.015
+  private_garage: 0.008
+  erfpacht_trap: -0.010
+
+energy_factors:
+  "A++": 1.08
+  "A+": 1.06
+  "A": 1.03
+  "B": 1.00
+  "C": 0.92
+  "D": 0.85
+
+age_factors:
+  min_year: 2000
+  factor_if_below: 0.92         # pre-2000 unless renovated

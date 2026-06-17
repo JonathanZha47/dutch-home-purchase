@@ -1,0 +1,136 @@
+{
+  "updated_at": "2026-06-16T22:54:44.635181+00:00",
+  "sources": {
+    "regional": "CBS OData 83625ENG (municipal/provincial annual avg purchase price)",
+    "national_monthly": "CBS OData 85773ENG (national monthly avg + price index)"
+  },
+  "regional_annual_avg_eur": {
+    "Netherlands": {
+      "2023": 416153,
+      "2024": 450985,
+      "2025": 479527
+    },
+    "Noord-Holland": {
+      "2023": 507271,
+      "2024": 544917,
+      "2025": 570463
+    },
+    "Zuid-Holland": {
+      "2023": 410408,
+      "2024": 442913,
+      "2025": 469137
+    },
+    "Amsterdam": {
+      "2023": 568161,
+      "2024": 617647,
+      "2025": 630621
+    },
+    "Haarlemmermeer": {
+      "2023": 507636,
+      "2024": 555385,
+      "2025": 591975
+    },
+    "Zaanstad": {
+      "2023": 387053,
+      "2024": 415308,
+      "2025": 430833
+    },
+    "Gouda": {
+      "2023": 363025,
+      "2024": 393908,
+      "2025": 420550
+    }
+  },
+  "national_monthly": [
+    {
+      "period": "2025MM12",
+      "avg_price_eur": 480051,
+      "price_index_2020": 151.4
+    },
+    {
+      "period": "2025MM11",
+      "avg_price_eur": 477531,
+      "price_index_2020": 152.8
+    },
+    {
+      "period": "2025MM10",
+      "avg_price_eur": 498996,
+      "price_index_2020": 152.3
+    },
+    {
+      "period": "2025MM09",
+      "avg_price_eur": 489072,
+      "price_index_2020": 151.6
+    },
+    {
+      "period": "2025MM08",
+      "avg_price_eur": 486190,
+      "price_index_2020": 151.6
+    },
+    {
+      "period": "2025MM07",
+      "avg_price_eur": 486041,
+      "price_index_2020": 150.9
+    },
+    {
+      "period": "2025MM06",
+      "avg_price_eur": 474234,
+      "price_index_2020": 149.8
+    },
+    {
+      "period": "2025MM05",
+      "avg_price_eur": 471875,
+      "price_index_2020": 148.5
+    },
+    {
+      "period": "2025MM04",
+      "avg_price_eur": 472054,
+      "price_index_2020": 147.6
+    },
+    {
+      "period": "2025MM03",
+      "avg_price_eur": 467873,
+      "price_index_2020": 146.7
+    },
+    {
+      "period": "2025MM02",
+      "avg_price_eur": 467363,
+      "price_index_2020": 145.7
+    },
+    {
+      "period": "2025MM01",
+      "avg_price_eur": 474534,
+      "price_index_2020": 145.5
+    },
+    {
+      "period": "2025KW04",
+      "avg_price_eur": 485525,
+      "price_index_2020": 152.2
+    },
+    {
+      "period": "2025KW03",
+      "avg_price_eur": 487150,
+      "price_index_2020": 151.4
+    },
+    {
+      "period": "2025KW02",
+      "avg_price_eur": 472710,
+      "price_index_2020": 148.7
+    },
+    {
+      "period": "2025KW01",
+      "avg_price_eur": 470028,
+      "price_index_2020": 146.0
+    },
+    {
+      "period": "2025JJ00",
+      "avg_price_eur": 479527,
+      "price_index_2020": 149.5
+    },
+    {
+      "period": "2024MM12",
+      "avg_price_eur": 457467,
+      "price_index_2020": 143.1
+    }
+  ]
+}

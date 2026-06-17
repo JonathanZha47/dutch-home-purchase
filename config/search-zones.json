@@ -1,0 +1,127 @@
+{
+  "transport_tier_legend": {
+    "S": "Metro direct to Amsterdam Zuid (no transfer) — top preference",
+    "A": "Train ~1 stop / minimal hops to Zuid — e.g. Hoofddorp Centraal",
+    "B": "~1h train (or drive) OK — Almere, Zaandam, Den Haag suburbs, etc.",
+    "watchlist": "Compare only; unlikely to visit (e.g. far Rotterdam suburbs)"
+  },
+  "zones": [
+    {
+      "id": "amsterdam_zuidoost_bijlmer",
+      "label": "Amsterdam Zuidoost (Bijlmer)",
+      "funda_path": "/koop/amsterdam/amsterdam-zuidoost/",
+      "postcodes": ["1102", "1103", "1104"],
+      "transport_tier": "S",
+      "viewing": "yes",
+      "zuid_commute_note": "Metro 50/54 direct to Amsterdam Zuid ~10 min",
+      "caution": "1980s blocks OK with discount; prefer 2000+ where possible"
+    },
+    {
+      "id": "amsterdam_zuidoost_ganzenhoef",
+      "label": "Amsterdam Zuidoost (Ganzenhoef / Gaasperplas)",
+      "funda_path": "/koop/amsterdam/amsterdam-zuidoost/ganzenhoef/",
+      "postcodes": ["1103", "1104", "1105"],
+      "transport_tier": "S",
+      "viewing": "yes",
+      "zuid_commute_note": "Metro via Ganzenhoef — direct line toward Zuid, no transfer"
+    },
+    {
+      "id": "hoofddorp_centrum",
+      "label": "Hoofddorp Centraal area",
+      "funda_path": "/koop/hoofddorp/",
+      "postcodes": ["2132", "2131"],
+      "transport_tier": "A",
+      "viewing": "yes",
+      "zuid_commute_note": "Train Hoofddorp → Amsterdam Zuid ~1 stop / ~10–15 min"
+    },
+    {
+      "id": "hoofddorp_floriande",
+      "label": "Hoofddorp Floriande",
+      "funda_path": "/koop/hoofddorp/floriande/",
+      "postcodes": ["2134", "2135"],
+      "transport_tier": "B",
+      "viewing": "yes",
+      "zuid_commute_note": "Bus/bike to Hoofddorp station then train to Zuid"
+    },
+    {
+      "id": "almere",
+      "label": "Almere",
+      "funda_path": "/koop/almere/",
+      "postcodes": ["1311", "1312", "1313", "1314", "1315", "1316", "1317", "1318", "1319", "1321", "1322", "1323", "1324", "1325", "1326", "1327", "1328", "1329", "1331", "1332", "1333", "1334", "1335", "1336", "1337", "1338", "1339", "1341", "1342", "1343", "1344", "1345", "1346", "1347", "1348", "1349", "1351", "1352", "1353", "1354", "1355", "1356", "1357", "1358", "1359", "1361", "1362", "1363", "1364", "1365", "1366", "1367", "1368", "1369", "1371", "1372", "1373", "1374", "1375", "1376", "1377", "1378", "1379", "1381", "1382", "1383", "1384", "1385", "1386", "1387", "1388", "1389", "1391", "1392", "1393", "1394", "1395", "1396", "1397", "1398", "1399"],
+      "transport_tier": "B",
+      "viewing": "yes",
+      "zuid_commute_note": "Train Almere → Amsterdam Centraal/Zuid ~30–40 min; within ~1h OK"
+    },
+    {
+      "id": "zaandam",
+      "label": "Zaandam",
+      "funda_path": "/koop/zaandam/",
+      "postcodes": ["1507", "1508", "1541"],
+      "transport_tier": "B",
+      "viewing": "yes",
+      "zuid_commute_note": "Train to Amsterdam + metro to Zuid ~25–35 min total"
+    },
+    {
+      "id": "den_haag_ypenburg",
+      "label": "Den Haag Ypenburg",
+      "funda_path": "/koop/den-haag/ypenburg/",
+      "postcodes": ["2496", "2497"],
+      "transport_tier": "B",
+      "viewing": "yes",
+      "zuid_commute_note": "Drive ~35–40 min to Zuid; large modern stock"
+    },
+    {
+      "id": "den_haag_leidschenveen",
+      "label": "Den Haag Leidschenveen",
+      "funda_path": "/koop/den-haag/leidschenveen/",
+      "postcodes": ["2492", "2493"],
+      "transport_tier": "B",
+      "viewing": "yes",
+      "zuid_commute_note": "RandstadRail; drive to Zuid ~35–40 min"
+    },
+    {
+      "id": "utrecht_leidsche_rijn",
+      "label": "Utrecht Leidsche Rijn",
+      "funda_path": "/koop/utrecht/leidsche-rijn/",
+      "postcodes": ["3541", "3543"],
+      "transport_tier": "B",
+      "viewing": "yes",
+      "zuid_commute_note": "Train via Utrecht ~45–55 min to Zuid"
+    },
+    {
+      "id": "amstelveen_metro",
+      "label": "Amstelveen (metro toward Zuid)",
+      "funda_path": "/koop/amstelveen/",
+      "postcodes": ["1181", "1182", "1183", "1184", "1185", "1186", "1187", "1188"],
+      "transport_tier": "S",
+      "viewing": "yes",
+      "zuid_commute_note": "Metro/tram connection toward Amsterdam Zuid — verify line at listing"
+    },
+    {
+      "id": "rotterdam_nesselande",
+      "label": "Rotterdam Nesselande",
+      "funda_path": "/koop/rotterdam/nesselande/",
+      "postcodes": ["3059"],
+      "transport_tier": "watchlist",
+      "viewing": "no",
+      "zuid_commute_note": "~2h to Zuid — inbox only"
+    },
+    {
+      "id": "gouda",
+      "label": "Gouda",
+      "funda_path": "/koop/gouda/",
+      "postcodes": ["2807", "2808"],
+      "transport_tier": "B",
+      "viewing": "yes",
+      "zuid_commute_note": "~1h train; mostly older stock — check build year",
+      "caution": "Often pre-2000; only if label B+ confirmed"
+    }
+  ],
+  "funda_filters": {
+    "object_type": "apartment",
+    "price_min": 300000,
+    "price_max": 500000,
+    "build_year_min": 2000,
+    "energy_label_min": "B"
+  }
+}

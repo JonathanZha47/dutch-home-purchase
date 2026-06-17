@@ -1,0 +1,68 @@
+# Target search zones derived from buyer profile and design doc.
+# Used by dutch-home-search skill and scripts/build_search_urls.py
+
+zones:
+  - id: den_haag_ypenburg
+    label: "Den Haag Ypenburg"
+    funda_path: "/koop/den-haag/ypenburg/"
+    postcodes: ["2496", "2497"]
+    priority: high
+    notes: "Benchmark area — 90-110m² modern A-label in budget"
+
+  - id: den_haag_leidschenveen
+    label: "Den Haag Leidschenveen"
+    funda_path: "/koop/den-haag/leidschenveen/"
+    postcodes: ["2492", "2493"]
+    priority: high
+
+  - id: hoofddorp_floriande
+    label: "Hoofddorp Floriande"
+    funda_path: "/koop/hoofddorp/floriande/"
+    postcodes: ["2134", "2135"]
+    priority: high
+
+  - id: hoofddorp_centrum
+    label: "Hoofddorp (centrum)"
+    funda_path: "/koop/hoofddorp/"
+    postcodes: ["2132", "2134"]
+    priority: medium
+
+  - id: zaandam
+    label: "Zaandam"
+    funda_path: "/koop/zaandam/"
+    postcodes: ["1507", "1508", "1541"]
+    priority: high
+
+  - id: amsterdam_zuidoost
+    label: "Amsterdam Zuidoost (Bijlmer)"
+    funda_path: "/koop/amsterdam/amsterdam-zuidoost/"
+    postcodes: ["1102", "1103", "1104"]
+    priority: medium
+    caution: "Pick 2000+ or accept 1980s only with discount; avoid lowest social-housing blocks"
+
+  - id: rotterdam_nesselande
+    label: "Rotterdam Nesselande"
+    funda_path: "/koop/rotterdam/nesselande/"
+    postcodes: ["3059"]
+    priority: medium
+
+  - id: utrecht_leidsche_rijn
+    label: "Utrecht Leidsche Rijn"
+    funda_path: "/koop/utrecht/leidsche-rijn/"
+    postcodes: ["3541", "3543"]
+    priority: medium
+
+  - id: gouda
+    label: "Gouda"
+    funda_path: "/koop/gouda/"
+    postcodes: ["2807", "2808"]
+    priority: low
+    caution: "Most stock pre-2000; only if A/B label confirmed"
+
+# Hard filters applied to every Funda search URL
+funda_filters:
+  object_type: apartment   # appartement
+  price_min: 300000
+  price_max: 500000
+  build_year_min: 2000
+  energy_label_min: B      # A++, A+, A, B

@@ -1,0 +1,12 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.env
+.env.*
+*.pem
+.venv/
+venv/
+
+# Private viewing / VvE documents — do not publish
+move-documents/
+move-documents.zip

@@ -1,0 +1,116 @@
+# Buyer profile — edit here when priorities or budget change.
+# The assistant reads this file before scoring every listing.
+
+buyer:
+  age: 2001
+  first_time_buyer: true
+  transfer_tax_exempt: true  # under-35 exemption, up to €510k
+
+budget:
+  max_total_kk: 500000        # hard ceiling (k.k. purchase price + buyer costs)
+  target_range: [400000, 450000]
+  mortgage_estimate: [170000, 200000]
+  own_funds: 132000           # parents + relatives (EUR)
+  include_erfpacht_buyout: true
+  include_overbidding: true
+  # Overbid is computed by scripts/estimate_price.py (Level 1 CBS model).
+
+hard_requirements:
+  min_build_year: 2000        # 1980s exceptions only with explicit user approval
+  min_energy_label: B         # A > B > C is a dealbreaker
+  regions:
+    - Randstad wide           # no hard city blacklist — judge by commute tier + listing quality
+    - Amsterdam metro area
+    - Hoofddorp / Haarlemmermeer
+    - Amstelveen / Ganzenhoef corridor
+    - Almere and other ~1h train towns OK
+
+location_commute:
+  primary_work_destination: Amsterdam Zuid / VU
+  office_days_per_week: 2
+
+  # Transport tiers — search & scoring should use these, NOT rigid include/exclude lists.
+  # S = what you want most · A = train almost door-to-door · B = ~1h train OK · watchlist = won't visit
+  transport_tiers:
+    S_metro_direct_zuid:
+      description: Amsterdam metro to Zuid, no transfer
+      examples:
+        - Bijlmer / Amsterdam Zuidoost (metro 50, 54)
+        - Ganzenhoef and nearby Zuidoost metro corridor (e.g. Gaasperplas line)
+      target_stations:
+        - Bijlmer ArenA
+        - Ganzenhoef
+        - Amsterdam Zuid
+
+    A_train_minimal:
+      description: Train ~one stop / very fast to Amsterdam Zuid
+      examples:
+        - Hoofddorp Centraal area (2132) — Sprinter/IC direct to Zuid ~10–15 min
+      target_stations:
+        - Hoofddorp
+        - Amsterdam Zuid
+
+    B_train_about_one_hour:
+      description: Randstad satellite towns; ~1h train to Zuid acceptable if price/size wins
+      examples:
+        - Almere
+        - Zaandam (train + metro transfer)
+        - Den Haag suburbs (Ypenburg, Leidschenveen) — often drive ~35–40 min
+        - Hoofddorp Floriande (bike/bus to Hoofddorp station)
+        - Utrecht Leidsche Rijn
+      max_train_minutes_to_zuid: 65
+      car_budget_if_needed_eur: 15000   # if car makes commute viable
+
+    watchlist_unlikely_visit:
+      description: May match on paper but too far / won't bezichtiging
+      examples:
+        - Rotterdam suburbs (e.g. Nesselande ~2h to Zuid)
+      note: Keep on inbox for comparison, not for viewing trips
+
+  scoring_hint: >
+    Transport dimension: tier S ≥4.5, tier A ≥4, tier B ≥3 if ≤1h train,
+    watchlist ≤2. Do not auto-reject tier B towns — compare total cost vs tier S/A.
+
+soft_preferences:
+  prioritize_size: true
+  dislike_city_center: true
+  quiet_suburb_ok: true
+  commute_destinations:
+    - Amsterdam Zuid / VU
+    - Amsterdam Centraal
+  tennis:
+    max_cycling_km: 5
+    preferred: nearby club within 5 km cycling
+  groceries:
+    prefer_walking_distance: true
+    delivery_ok: true
+  parking:
+    prefer_private_garage_or_spot: true
+  rental_liquidity: important
+
+dealbreakers:
+  - energy_label_below_B_without_exception
+  - build_year_before_2000_without_exception
+  - unsafe_area_without_modern_building_buffer
+  - total_cost_above_max_budget
+
+scoring_weights:
+  dimensions:
+    - id: quality
+      label: 房屋质量 (房龄/能效/硬件)
+      weight: 1.0
+    - id: size
+      label: 面积
+      weight: 1.0
+    - id: groceries
+      label: 买菜便利度
+      weight: 1.0
+    - id: tennis
+      label: 网球场距离
+      weight: 1.0
+    - id: transport
+      label: 交通 (去南站/VU + 市中心)
+      weight: 1.0
+    - id: financial
+      label: 真实财务 (含溢价/地租/VvE)
+      weight: 1.0

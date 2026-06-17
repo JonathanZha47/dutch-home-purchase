@@ -1,0 +1,348 @@
+{
+  "listings": [
+    {
+      "id": "80827149",
+      "funda_url": "https://www.funda.nl/detail/80827149",
+      "address": "Vurehout 435, Zaandam",
+      "city": "Zaandam",
+      "postcode": "1507",
+      "price_asking": 395000,
+      "price_estimated_bid": 414000,
+      "living_area_m2": 88,
+      "bedrooms": 2,
+      "build_year": 2017,
+      "energy_label": "A+",
+      "vve_monthly": 170,
+      "erfpacht": {
+        "type": "erfpacht",
+        "summary": "地租预付至 2027-02；之后约 €3,402/年（≈€283/月）",
+        "paid_until": "2027-02-24",
+        "monthly_after_term": 283,
+        "buyout_cost_estimate": 30000
+      },
+      "buyer_costs_eur": 6000,
+      "true_cost_eur": 450000,
+      "monthly_carry_eur": 453,
+      "features": [
+        "private_garage",
+        "storage",
+        "elevator"
+      ],
+      "pricing_tags": [
+        "private_garage",
+        "erfpacht_trap"
+      ],
+      "scores": {
+        "quality": 5,
+        "size": 4,
+        "groceries": 2,
+        "tennis": 2.5,
+        "transport": 4,
+        "financial": 2,
+        "total": 19.5
+      },
+      "pros": [
+        "2017年新房，A+ 能效，88㎡ 大两居",
+        "自带 Private Garage（价值约 €3–4万）",
+        "挂牌虽高，溢价后仍可能在预算内",
+        "去 Amsterdam Centraal 火车极快"
+      ],
+      "cons": [
+        "Erfpacht 2027 年后每年 €3,402，或需 ~€30k 买断",
+        "真实总成本接近 €426k，月持有成本 ~€453",
+        "买菜需外送或骑车，网球约 5km",
+        "性价比被地租严重拉低"
+      ],
+      "vve_analysis": {
+        "monthly_fee": 170,
+        "red_flags": [],
+        "notes": "VvE 分项：公寓 €130.84 + 车库/储藏 €38.80，对 2017 年楼合理。主要财务风险在 Erfpacht 而非 VvE。"
+      },
+      "verdict": "备选（硬件王者，地租是坑）",
+      "analyzed_at": "2026-06-17",
+      "status": "active",
+      "price_estimate": {
+        "method": "level1_cbs",
+        "confidence": "medium-high",
+        "market_value_eur": 419302,
+        "price_estimated_bid": 414000,
+        "overbid_pct": 0.0481,
+        "overbid_eur": 19000,
+        "factors": {
+          "cbs_municipality": "Zaanstad",
+          "cbs_avg_eur": 415308,
+          "cbs_year": "2024",
+          "neighborhood_profile": "zaandam_residential",
+          "neighborhood_factor": 0.92,
+          "energy_factor": 1.06,
+          "age_factor": 1.0,
+          "base_overbid_pct": 0.05,
+          "overbid_adjustments": -0.002,
+          "competition_factor": 0.72,
+          "implied_eur_per_m2": 4765,
+          "asking_eur_per_m2": 4489
+        },
+        "data_sources": [
+          "CBS OData 83625ENG (municipal/provincial annual avg purchase price)",
+          "config/regional-pricing.json"
+        ],
+        "notes": "CBS 模型公允价 €419,302 高于挂牌，但弱区环境压制溢价。 模型预估成交 €414,000（较挂牌 +€19,000）。"
+      }
+    },
+    {
+      "id": "44463784",
+      "funda_url": "https://www.funda.nl/detail/44463784",
+      "address": "Nieuweweg 83-H, Hoofddorp",
+      "city": "Hoofddorp",
+      "postcode": "2132",
+      "price_asking": 365000,
+      "price_estimated_bid": 383000,
+      "living_area_m2": 70,
+      "bedrooms": 1,
+      "build_year": 2018,
+      "energy_label": "A",
+      "vve_monthly": 130,
+      "erfpacht": {
+        "type": "eigen_grond",
+        "summary": "永久产权，无地租",
+        "monthly_after_term": 0,
+        "buyout_cost_estimate": 0
+      },
+      "buyer_costs_eur": 6000,
+      "true_cost_eur": 389000,
+      "monthly_carry_eur": 130,
+      "features": [
+        "elevator",
+        "parking",
+        "modern_interior"
+      ],
+      "scores": {
+        "quality": 4.5,
+        "size": 2,
+        "groceries": 5,
+        "tennis": 4,
+        "transport": 4.5,
+        "financial": 4,
+        "total": 24
+      },
+      "pros": [
+        "极新 A 级能效，Eigen grond 无地租烦恼",
+        "下楼即是超市，生活配套满分",
+        "火车直达 Amsterdam Zuid，通勤最顺之一",
+        "适合 expat 出租，流动性顶级"
+      ],
+      "cons": [
+        "仅 70㎡ 一居室，空间是最大硬伤",
+        "Hoofddorp 可能有飞机噪音（开窗/阳台）",
+        "单价偏高，同样预算买到的面积最小"
+      ],
+      "vve_analysis": {
+        "monthly_fee": 130,
+        "red_flags": [],
+        "notes": "现代公寓 VvE 费用正常。建议看房时确认 MJOP 和 reservefonds 是否健康。"
+      },
+      "verdict": "值得看房（省心高品质，牺牲面积）",
+      "analyzed_at": "2026-06-17",
+      "status": "active",
+      "price_estimate": {
+        "method": "level1_cbs",
+        "confidence": "medium-high",
+        "market_value_eur": 367455,
+        "price_estimated_bid": 383000,
+        "overbid_pct": 0.0493,
+        "overbid_eur": 18000,
+        "factors": {
+          "cbs_municipality": "Haarlemmermeer",
+          "cbs_avg_eur": 555385,
+          "cbs_year": "2024",
+          "neighborhood_profile": "hoofddorp_central",
+          "neighborhood_factor": 0.78,
+          "energy_factor": 1.03,
+          "age_factor": 1.0,
+          "base_overbid_pct": 0.045,
+          "overbid_adjustments": 0.005,
+          "competition_factor": 0.7,
+          "implied_eur_per_m2": 5249,
+          "asking_eur_per_m2": 5214
+        },
+        "data_sources": [
+          "CBS OData 83625ENG (municipal/provincial annual avg purchase price)",
+          "config/regional-pricing.json"
+        ],
+        "notes": "模型预估成交 €383,000（较挂牌 +€18,000）。"
+      }
+    },
+    {
+      "id": "80838370",
+      "funda_url": "https://www.funda.nl/detail/80838370",
+      "address": "Haardstee 29, Amsterdam (Bijlmer)",
+      "city": "Amsterdam",
+      "postcode": "1102",
+      "price_asking": 345000,
+      "price_estimated_bid": 350000,
+      "living_area_m2": 91,
+      "bedrooms": 3,
+      "build_year": 1981,
+      "energy_label": "B",
+      "vve_monthly": 264,
+      "erfpacht": {
+        "type": "erfpacht",
+        "summary": "地租已付至 2031-10；永久买断约 €15–20k",
+        "paid_until": "2031-10-15",
+        "monthly_after_term": 0,
+        "buyout_cost_estimate": 17500
+      },
+      "buyer_costs_eur": 6000,
+      "true_cost_eur": 373500,
+      "monthly_carry_eur": 264,
+      "features": [
+        "maisonnette",
+        "metro_nearby"
+      ],
+      "scores": {
+        "quality": 2.5,
+        "size": 5,
+        "groceries": 3.5,
+        "tennis": 3.5,
+        "transport": 5,
+        "financial": 5,
+        "total": 24.5
+      },
+      "pros": [
+        "91㎡ 三居复式，同预算空间最大",
+        "地铁直达 Amsterdam Zuid/Centraal，可省买车",
+        "地租已付至 2031，短期财务压力小",
+        "总价低，出租需求强（学生/白领）"
+      ],
+      "cons": [
+        "1981 年建，违反「2000年后」偏好（需主动妥协）",
+        "VvE €264/月偏高，未来大修风险需核实",
+        "紧邻 social housing，区域一般，预估仅需小幅溢价（~€35万成交）",
+        "老楼隔音/维护不如现代公寓"
+      ],
+      "vve_analysis": {
+        "monthly_fee": 264,
+        "red_flags": [
+          "1980s_building_high_vve",
+          "verify_mjop_and_reservefonds"
+        ],
+        "notes": "老楼 VvE 偏高较常见。务必索要 VvE jaarverslag、reservefonds 余额、是否有 gevel/dak 大修计划。"
+      },
+      "verdict": "值得看房（务实派：空间+交通，妥协房龄）",
+      "analyzed_at": "2026-06-17",
+      "status": "active",
+      "price_estimate": {
+        "method": "level1_cbs",
+        "confidence": "medium-high",
+        "market_value_eur": 352840,
+        "price_estimated_bid": 350000,
+        "overbid_pct": 0.0145,
+        "overbid_eur": 5000,
+        "factors": {
+          "cbs_municipality": "Amsterdam",
+          "cbs_avg_eur": 617647,
+          "cbs_year": "2024",
+          "neighborhood_profile": "bijlmer_hoptille",
+          "neighborhood_factor": 0.58,
+          "energy_factor": 1.0,
+          "age_factor": 0.92,
+          "base_overbid_pct": 0.035,
+          "overbid_adjustments": -0.055,
+          "competition_factor": 0.68,
+          "implied_eur_per_m2": 3877,
+          "asking_eur_per_m2": 3791
+        },
+        "data_sources": [
+          "CBS OData 83625ENG (municipal/provincial annual avg purchase price)",
+          "config/regional-pricing.json"
+        ],
+        "notes": "邻里有 social housing，竞价压力低于 Amsterdam 均价所暗示的水平。 模型预估成交 €350,000（较挂牌 +€5,000）。"
+      }
+    },
+    {
+      "id": "43321027",
+      "funda_url": "https://www.funda.nl/detail/43321027",
+      "address": "Ruigenburg 31, Gouda",
+      "city": "Gouda",
+      "postcode": "2807",
+      "price_asking": 325000,
+      "price_estimated_bid": 325000,
+      "living_area_m2": 84,
+      "bedrooms": 2,
+      "build_year": 1985,
+      "energy_label": "C",
+      "vve_monthly": 180,
+      "erfpacht": {
+        "type": "eigen_grond",
+        "summary": "永久产权",
+        "monthly_after_term": 0,
+        "buyout_cost_estimate": 0
+      },
+      "buyer_costs_eur": 6000,
+      "true_cost_eur": 331000,
+      "monthly_carry_eur": 180,
+      "features": [
+        "galerijflat",
+        "mall_nearby"
+      ],
+      "scores": {
+        "quality": 1.5,
+        "size": 3.5,
+        "groceries": 5,
+        "tennis": 4.5,
+        "transport": 2,
+        "financial": 5,
+        "total": 21.5
+      },
+      "pros": [
+        "绝对最便宜，真实成本 ~€346k",
+        "Eigen grond，Lidl/Jumbo mall 极近",
+        "网球骑车方便，Gouda 生活成本低"
+      ],
+      "cons": [
+        "Energielabel C，1980 年代长廊公寓 — 硬指标不达标",
+        "去 Amsterdam Zuid 约 1 小时，通勤太远",
+        "84㎡ 不如预期大，出租对阿姆白领吸引力弱",
+        "未来能源改造/取暖费是隐形坑"
+      ],
+      "vve_analysis": {
+        "monthly_fee": 180,
+        "red_flags": [
+          "energy_label_C",
+          "aging_galerijflat"
+        ],
+        "notes": "老长廊公寓需重点看外立面/电梯/管道状况。C 级能效意味着更高 gas 账单和潜在改造分摊。"
+      },
+      "verdict": "淘汰",
+      "analyzed_at": "2026-06-17",
+      "status": "rejected",
+      "price_estimate": {
+        "method": "level1_cbs",
+        "confidence": "medium-high",
+        "market_value_eur": 296533,
+        "price_estimated_bid": 325000,
+        "overbid_pct": 0.0,
+        "overbid_eur": 0,
+        "factors": {
+          "cbs_municipality": "Gouda",
+          "cbs_avg_eur": 393908,
+          "cbs_year": "2024",
+          "neighborhood_profile": "gouda_residential",
+          "neighborhood_factor": 0.9,
+          "energy_factor": 0.92,
+          "age_factor": 0.92,
+          "base_overbid_pct": 0.03,
+          "overbid_adjustments": -0.015,
+          "competition_factor": 0.45,
+          "implied_eur_per_m2": 3530,
+          "asking_eur_per_m2": 3869
+        },
+        "data_sources": [
+          "CBS OData 83625ENG (municipal/provincial annual avg purchase price)",
+          "config/regional-pricing.json"
+        ],
+        "notes": "挂牌已高于 CBS 公允价 €296,533，预估仅小幅溢价或平价成交。 模型预估成交 €325,000（较挂牌 +€0）。"
+      }
+    }
+  ]
+}
