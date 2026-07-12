@@ -157,6 +157,18 @@ flowchart LR
 4. **Analyze** — paste Funda URL → `@dutch-home-analyze` → scores + bid estimate in `dashboard/index.html`
 5. **VvE** — after viewing → `@dutch-home-vve`
 
+### Viewed listings + documents
+
+After a viewing, put every document for that property under
+`viewing/<address-or-short-name>/`, then ask the agent to follow
+`dutch-home-analyze` + `dutch-home-vve` with the Funda URL and folder path.
+
+The analyzed listing should set `viewing_completed: true` or `status: "viewed"`.
+`dashboard/index.html` then shows it in the **已看房 · Documents Review** section,
+including document count, overall risk, summary path, and VvE/document notes.
+
+Detailed usage: see [`VIEWED_WORKFLOW.md`](VIEWED_WORKFLOW.md).
+
 ---
 
 ## Commands reference

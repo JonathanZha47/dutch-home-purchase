@@ -43,7 +43,13 @@ Full field mapping: [vve-checklist.md](vve-checklist.md)
 
 ## Output format
 
-Update the listing in `data/listings.json`:
+Write a human-readable document review first:
+
+```text
+viewing/<folder-name>/documents-summary.md
+```
+
+Then update the listing in `data/listings.json`:
 
 ```json
 {
@@ -55,8 +61,24 @@ Update the listing in `data/listings.json`:
     "risk_level": "medium",
     "notes": "中文总结：..."
   },
+  "status": "viewed",
   "viewing_completed": true,
-  "viewing_date": "2026-06-17"
+  "viewing_date": "2026-06-17",
+  "viewing_folder": "viewing/<folder-name>",
+  "viewing_documents": {
+    "folder": "viewing/<folder-name>",
+    "summary_path": "viewing/<folder-name>/documents-summary.md",
+    "overall_risk_level": "medium",
+    "documents": [
+      {
+        "filename": "MJOP.pdf",
+        "type": "MJOP",
+        "summary": "中文总结：...",
+        "risks": ["planned_major_work"],
+        "follow_up_questions": ["Ask whether the work is fully funded."]
+      }
+    ]
+  }
 }
 ```
 
@@ -64,7 +86,11 @@ Then regenerate dashboard:
 
 ```bash
 python3 scripts/add_listing.py --file updated-listing.json
+# or, after editing data/listings.json directly:
+python3 scripts/regenerate_all.py
 ```
+
+The listing appears in `dashboard/index.html` under **已看房 · Documents Review**.
 
 ## Verdict impact
 
