@@ -343,6 +343,248 @@
         ],
         "notes": "挂牌已高于 CBS 公允价 €296,533，预估仅小幅溢价或平价成交。 模型预估成交 €325,000（较挂牌 +€0）。"
       }
+    },
+    {
+      "id": "havikskruid145-diemen",
+      "funda_url": "",
+      "address": "Havikskruid 145, 1112 NL Diemen",
+      "city": "Diemen",
+      "postcode": "1112",
+      "neighborhood": "Diemen-Zuid",
+      "price_asking": null,
+      "price_estimated_bid": 340000,
+      "living_area_m2": 64,
+      "bedrooms": 2,
+      "build_year": 1982,
+      "energy_label": "C",
+      "woz_2024": 329000,
+      "previous_sale_price": 290750,
+      "previous_sale_year": 2021,
+      "vve_monthly": 150,
+      "erfpacht": null,
+      "buyer_costs_eur": 4000,
+      "true_cost_eur": 349000,
+      "monthly_carry_eur": 150,
+      "features": [
+        "private_garden_begane_grond",
+        "renovated_kitchen_2024",
+        "renovated_bathroom_2025",
+        "glasvezel_internet",
+        "floor_insulation_2021",
+        "no_berging"
+      ],
+      "pricing_tags": [
+        "dealbreaker_energy_C",
+        "dealbreaker_build_1982",
+        "mjop_under_revision",
+        "asbest_risk_1982",
+        "low_vve_fee",
+        "tier_A_transport_diemen"
+      ],
+      "scores": {
+        "quality": 2.5,
+        "size": 3,
+        "groceries": 3.5,
+        "tennis": 3,
+        "transport": 4,
+        "financial": 3.5,
+        "total": 19.5
+      },
+      "pros": [
+        "Diemen-Zuid 位置优质，交通 Tier A（约 20-25 分钟至 Amsterdam Zuid）",
+        "一楼独享私人花园，VvE 内仅 6 套此类型",
+        "VvE 月费仅 €150.22，最低档之一",
+        "专业管理 VvE Metea，储备金 €139,951，正增长",
+        "厨房 2024 + 浴室 2025 全新翻新",
+        "无 erfpacht，无纠纷，无欠款"
+      ],
+      "cons": [
+        "建年 1982（硬性要求 ≥2000，需显式豁免）",
+        "能源标签 C（硬性要求 ≥B，需显式豁免）",
+        "MJOP 正在修订，未来大修支出不确定",
+        "1982 年楼潜在石棉风险，无专业调查报告",
+        "管道系统（气/水 standleiding）状态无法检查（条件 8-9）",
+        "无独立 berging（储藏间）",
+        "屋顶通风机老化（1980s），更换约 €15-16k 待定",
+        "外框木质，5 年以上未刷漆"
+      ],
+      "vve_analysis": {
+        "monthly_fee": 150,
+        "reservefonds_eur": 139951,
+        "reservefonds_date": "2026-06-18",
+        "annual_dotatie_eur": 95053,
+        "mjop_year": 2022,
+        "mjop_summary": "2022 年版本，VvE Metea 编制；大多元素状态 1-2（优良）；管道/排水条件 8-9（需专项调查）；新版 MJOP 待 2026-09-15 ALV 批准。估计 liquiditeitsprognose 约 €170k（schilderwerk 大修）。",
+        "red_flags": [
+          "mjop_under_revision_new_not_approved",
+          "pipe_system_uninspectable_condition_8_9",
+          "asbest_risk_1982_building",
+          "dakventilatoren_aging_1980s_eur15k_replacement",
+          "moisture_adjacent_unit_cause_pending",
+          "exterior_frame_not_painted_5yr",
+          "vve_questionnaire_unit_count_inconsistency"
+        ],
+        "risk_level": "medium",
+        "notes": "VvE 治理良好（VvE Metea 专业管理、储备正增长、无纠纷），风险主要来自 MJOP 修订不确定性、1982 年建的隐性维护成本（石棉、管道、通风）。月费 €150 在 VvE 内是最低档，正面。"
+      },
+      "verdict": "高风险（触发两项硬性排除条件）—— 需显式豁免能源 C + 1982 年建才可出价",
+      "analyzed_at": "2026-07-11",
+      "status": "viewed",
+      "viewing_completed": true,
+      "viewing_date": "2026-07-11",
+      "viewing_folder": "viewing/harvisk145-diemen",
+      "viewing_documents": {
+        "folder": "viewing/harvisk145-diemen",
+        "summary_path": "viewing/harvisk145-diemen/documents-summary.md",
+        "overall_risk_level": "high",
+        "documents": [
+          {
+            "filename": "MT Havikskruid 145 Diemen-12.pdf",
+            "type": "meetrapport",
+            "summary": "GO Wonen 64.1 m²（NEN 2580 Lidar 测量，2026-06-22），begane grond 无 berging。",
+            "risks": []
+          },
+          {
+            "filename": "energielabel-3.pdf",
+            "type": "energielabel",
+            "summary": "Label C，2019-05-21 注册，有效至 2029-05-21；外墙未隔热，无机械通风。",
+            "risks": [
+              "energy_label_C_dealbreaker"
+            ]
+          },
+          {
+            "filename": "Meerjarenonderhoudsplan 2022-6.pdf",
+            "type": "MJOP",
+            "summary": "2022 年版，VvE Metea；大多数元素状态 1-2；管道条件 8-9（需专项）；正在修订中。",
+            "risks": [
+              "mjop_under_revision",
+              "pipe_inspection_needed",
+              "planned_major_work"
+            ],
+            "follow_up_questions": [
+              "新 MJOP 草稿何时完成？有无预览？",
+              "管道专项调查结果如何？",
+              "dakventilatoren 更换是否已纳入预算？"
+            ]
+          },
+          {
+            "filename": "Havikskruid145_VVE Notulen-10.pdf",
+            "type": "ALV_notulen",
+            "summary": "2025-09-10 ALV；批准 2024 年报和 2025/2026 预算（含 naheffing）；决议修订 MJOP；讨论渗水、通风、intercom、安全。",
+            "risks": [
+              "ventilatoren_replacement",
+              "moisture_in_building",
+              "governance_watch"
+            ],
+            "follow_up_questions": [
+              "mevrouw Martina 渗水问题结构师是否已上门？",
+              "2025 naheffing 金额和卖家缴清状态？"
+            ]
+          },
+          {
+            "filename": "Begroting van boekjaar 2025 - 2026 (1)-8.csv",
+            "type": "VvE_begroting",
+            "summary": "总预算 €139,953；dotatie reservefonds €95,053；保险 €15,000；beheer €7,400。",
+            "risks": []
+          },
+          {
+            "filename": "Bijdrage per appartement van boekjaar 2025 - 2026-11.csv",
+            "type": "VvE_fee_breakdown",
+            "summary": "A-06 (Havikskruid 145): €150.22/月，全年 €1,802.64。无 berging 单元最低费率之一。",
+            "risks": []
+          },
+          {
+            "filename": "Vragenlijst_Deel_B...pdf",
+            "type": "vragenlijst",
+            "summary": "建年 1982；无石棉（卖家声明）；厨房 2024/浴室 2025；WOZ €329k；月费 €150；储备 €139,951；无争议。VvE 单元数填写为 15（与实际 56 不符，需核实）。",
+            "risks": [
+              "asbest_seller_declaration_only",
+              "vve_unit_count_inconsistency",
+              "exterior_frame_paint_overdue"
+            ],
+            "follow_up_questions": [
+              "VvE 是否有子 VvE 结构导致问卷填写 15 个单元？",
+              "是否有专业石棉调查报告？",
+              "停车证区域和申请情况？"
+            ]
+          },
+          {
+            "filename": "leveringsacte-4.pdf",
+            "type": "leveringsacte",
+            "summary": "2021-01-06 成交 €290,750；cadastraal Diemen E 1695-6；无 erfpacht；55 户 + 1 algemene ruimte。",
+            "risks": []
+          },
+          {
+            "filename": "bidding-price/1112NL_145-20260711-182101.pdf",
+            "type": "kadaster_koopsom",
+            "summary": "同街近期成交：nr175 €336,175（2023-05，带 berging）；nr161 €491k（2022 峰值）；nr149 €451k（2022 峰值）。本房 2021 年 €290,750，2019 年 €262,500。",
+            "risks": []
+          }
+        ]
+      },
+      "bidding_strategy": {
+        "updated": "2026-07-11",
+        "asking_price": 375000,
+        "woz_2025": 365000,
+        "woz_2024": 329000,
+        "dealbreakers_waived": [
+          "energy_label_C",
+          "build_year_1982"
+        ],
+        "kitchen_quality_note": "2024 I-Kook premium, confirmed very new by buyer",
+        "fair_value_estimate_range": [
+          393000,
+          401000
+        ],
+        "fair_value_method": "WOZ 2026 + 18mo appreciation (~7.5%) + post-WOZ bathroom premium",
+        "competition_level": "medium",
+        "recommended_bid": 385000,
+        "recommended_bid_range": [
+          385000,
+          392000
+        ],
+        "max_bid": 400000,
+        "transfer_tax": 0,
+        "transfer_tax_note": "first-time buyer under-35 exemption, property < €510k",
+        "estimated_kk_costs": 3500,
+        "total_acquisition_at_recommended": 388500,
+        "required_mortgage_at_recommended": 256500,
+        "mortgage_gap_warning": "Buyer profile mortgage_estimate is €170-200k; required ~€256k. Verify actual mortgage capacity before bidding.",
+        "conditions_required": [
+          "ontbindende voorwaarde financiering",
+          "ontbindende voorwaarde bouwkundige keuring",
+          "MJOP revision clause: right to rescind if new MJOP triggers levy > €5000/unit",
+          "seller declares asbest status professionally",
+          "naheffing 2025/2026 cleared before transfer"
+        ],
+        "woz_2025_note": "CORRECTION: peildatum is 2025-01-01 (this is WOZ 2026 in Dutch convention). Kitchen 2024 renovation already included in this WOZ. Time window to now is ~18 months.",
+        "woz_peildatum": "2025-01-01",
+        "kitchen_already_in_woz": true
+      },
+      "price_estimate": {
+        "method": "comparable_sales_adjusted",
+        "confidence": "medium",
+        "market_value_eur": 330000,
+        "price_estimated_bid": 340000,
+        "woz_2024": 329000,
+        "comparable_ref": "Havikskruid 175 €336,175 (2023-05, with berging)",
+        "adjustments": {
+          "renovation_bonus": 12000,
+          "no_berging_discount": -17000,
+          "energy_C_discount": -10000,
+          "mjop_uncertainty_discount": -7000
+        },
+        "dealbreaker_exceptions_required": [
+          "energy_label_C",
+          "build_year_1982"
+        ]
+      },
+      "asking_price": 375000,
+      "woz_2025": 365000,
+      "dealbreakers_waived": [
+        "energy_label_C",
+        "build_year_1982"
+      ]
     }
   ]
 }
