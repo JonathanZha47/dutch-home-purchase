@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>房产评估 · Concourslaan 86</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#fff; --ink:#1c2330; --muted:#5b6577; --line:#e6e9ef;
+    --good:#1a7f4b; --good-bg:#e7f6ed; --mid:#b8860b; --mid-bg:#fbf3dc;
+    --bad:#c0392b; --bad-bg:#fbe9e7; --accent:#2c5fb3; --accent-bg:#e8f0fc;
+    --sev3:#c0392b; --sev2:#d97706; --sev1:#b8860b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.55;font-size:15px}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 18px 60px}
+  header.top{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;justify-content:space-between;
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:18px}
+  .top h1{font-size:22px;margin:0 0 4px}
+  .top .sub{color:var(--muted);font-size:14px}
+  .verdict{font-size:15px;font-weight:700;padding:10px 16px;border-radius:10px;white-space:nowrap}
+  .v-go{background:var(--good-bg);color:var(--good);border:1px solid var(--good)}
+  .v-care{background:var(--mid-bg);color:var(--mid);border:1px solid var(--mid)}
+  .v-skip{background:var(--bad-bg);color:var(--bad);border:1px solid var(--bad)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 14px}
+  .card .k{font-size:12px;color:var(--muted);margin-bottom:3px}
+  .card .v{font-size:17px;font-weight:700}
+  .card .note{font-size:12px;color:var(--muted);margin-top:2px}
+  .pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;border:1px solid}
+  .match-good{background:var(--good-bg);color:var(--good);border-color:var(--good)}
+  .match-mid{background:var(--mid-bg);color:var(--mid);border-color:var(--mid)}
+  .match-bad{background:var(--bad-bg);color:var(--bad);border-color:var(--bad)}
+  .scorebar{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:20px;
+    display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+  .score{font-size:34px;font-weight:800;letter-spacing:-1px;color:var(--mid)}
+  .score small{font-size:15px;color:var(--muted);font-weight:600}
+  .reason{flex:1;min-width:240px;font-size:14px}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+  section.block > h2{font-size:16px;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--line);display:flex;align-items:center;gap:8px}
+  .dim{padding:10px 0;border-bottom:1px solid var(--line)}
+  .dim:last-child{border-bottom:none}
+  .dim h3{font-size:14px;margin:0 0 4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .dim .body{font-size:14px}
+  .dim .nl{color:var(--muted);font-style:italic}
+  .tag{font-size:11px;font-weight:700;padding:1px 8px;border-radius:6px}
+  .t-good{background:var(--good-bg);color:var(--good)}
+  .t-warn{background:var(--mid-bg);color:var(--mid)}
+  .t-bad{background:var(--bad-bg);color:var(--bad)}
+  ul.flags{list-style:none;padding:0;margin:0}
+  ul.flags li{display:flex;gap:10px;padding:9px 11px;border-radius:9px;margin-bottom:8px;font-size:14px;align-items:flex-start}
+  .sev-3{background:var(--bad-bg);border-left:4px solid var(--sev3)}
+  .sev-2{background:#fef3e2;border-left:4px solid var(--sev2)}
+  .sev-1{background:var(--mid-bg);border-left:4px solid var(--sev1)}
+  .sev-ico{font-size:15px;line-height:1.4}
+  .good-li{background:var(--good-bg);border-left:4px solid var(--good)}
+  table.cost{width:100%;border-collapse:collapse;font-size:14px}
+  table.cost th,table.cost td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.cost th{color:var(--muted);font-weight:600;font-size:12px}
+  table.cost td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  table.cost tr.total td{font-weight:800;border-top:2px solid var(--ink);border-bottom:none}
+  .src{font-size:11px;color:var(--muted)}
+  .needcheck{color:var(--bad);font-weight:600;font-size:12px}
+  .missing{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}
+  .missing li{font-size:13px;padding:7px 10px;background:#fff7f5;border:1px dashed var(--bad);border-radius:8px;color:var(--bad)}
+  .callout{background:var(--mid-bg);border:1px solid var(--mid);border-radius:10px;padding:14px 16px;margin-bottom:18px;font-size:14px}
+  .callout b{color:var(--mid)}
+  .note-box{background:var(--accent-bg);border:1px solid var(--accent);border-radius:10px;padding:11px 14px;margin-bottom:16px;font-size:13px}
+  footer.disc{font-size:12px;color:var(--muted);margin-top:24px;padding:14px 16px;background:var(--card);
+    border:1px solid var(--line);border-radius:10px}
+  .asof{font-size:12px;color:var(--muted);margin-top:6px}
+  @media print{ body{background:#fff;font-size:12px} .wrap{max-width:none;padding:0}
+    section.block,.card,header.top,.scorebar,footer.disc,.callout,.note-box{break-inside:avoid;box-shadow:none} @page{margin:14mm} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <h1>Concourslaan 86 <span style="font-weight:400;font-size:15px;color:var(--muted)">+ PP18</span></h1>
+      <div class="sub">2132 DK Hoofddorp centrum · App. A-44（woning）+ A-61（车位 PP18）· 3e verd. hoek · bouwjaar 1992-1999</div>
+    </div>
+    <div class="verdict v-care">谨慎 · CARE</div>
+  </header>
+
+  <div class="note-box">
+    <b>说明</b>：本套是<b>用户朋友</b>要看的（预算 <b>&lt; €500.000</b>）——<b>不套用 Qingyu 的 profile</b>（P1/€320k/2 室/starters 等均与本套无关）。文件包里已有一份朋友做的中文审查（判"中高风险"）；本报告<b>独立核验</b>了其关键数字（全部属实）并补了它漏掉的项。税档/月供/出价的买家相关部分依<b>朋友</b>的自住/融资情况定（下方标注）。
+  </div>
+
+  <div class="callout">
+    <b>一句话：位置和价格对你朋友都成立，风险全在这栋 VvE 的"治理 + 结构"上。</b>
+    Hoofddorp centrum、通勤强、80 m² 顶层带地下车位、label B、要价 <b>€395.000（从 €409k 降）</b>——落进 &lt;€500k 预算、且贵不到哪去（同街真实成交 ~€400k）。
+    但这是个<b>遗产房（无卖方披露）</b>，且 VvE 有三处硬伤：<b>①2024+2025 两年账目都没通过、董事会未免责、三层 VvE 账目纠缠；②galerij 承重混凝土裂缝逾期未修（安全相关，一处就在本户楼层）；③邻户 #88 长期漏水未了。</b>决定性的 <b>2026-05-19 ALV 纪要不在包里</b>——出价前必须拿到。
+  </div>
+
+  <div class="cards">
+    <div class="card"><div class="k">要价 / €m²</div><div class="v">€395.000</div><div class="note">€4.931/m²（80,1m²）· 曾 €409k</div></div>
+    <div class="card"><div class="k">WOZ</div><div class="v">€447k</div><div class="note">2025；2024 €394k · 成交 ~€400k</div></div>
+    <div class="card"><div class="k">bouwjaar / 房型</div><div class="v">1990s</div><div class="note">80,1m² 顶层转角 + 车位</div></div>
+    <div class="card"><div class="k">energielabel</div><div class="v" style="color:var(--mid)">B</div><div class="note">到 2030 · 屋顶未额外保温 · gas</div></div>
+    <div class="card"><div class="k">VvE</div><div class="v" style="color:var(--bad)">中高风险</div><div class="note">€268,93/mnd · 2 年账未批</div></div>
+    <div class="card"><div class="k">预算匹配（朋友）</div><div class="v"><span class="pill match-good">€395k &lt; €500k</span></div><div class="note">价格/位置符 · VvE 拖累</div></div>
+  </div>
+
+  <div class="scorebar">
+    <div class="score">58<small> / 100</small></div>
+    <div class="reason"><b>一句话结论：</b>房子+位置+价格对你朋友都 OK（Hoofddorp centrum、80m² 顶层带车位、€395k 落进预算、同街成交 ~€400k）；但 <b>VvE 治理混乱（两年账未批 + 账目纠缠 + 弱董事会）+ galerij 承重混凝土裂缝逾期未修 + #88 漏水未了 + 遗产房无披露</b>。可买，但<b>必做验房、拿到 2026 ALV 纪要、按证据保守出价、别追卖方 agency 的 €475k 估值</b>。</div>
+  </div>
+
+  <section class="block">
+    <h2>逐维度深析</h2>
+
+    <div class="dim"><h3>① 产权 / splitsing<span class="tag t-warn">缺 sub-deed</span></h3>
+      <div class="body">正规 appartementsrecht：<b>A-44（woning，180/5000）+ A-61（PP18 车位，15/5000）</b>，<b>顶层 3e verdieping 转角</b>。⚠️ <b>但定义这些的 ondersplitsingsakte woningen 不在文件包</b>——包里只有 1999 年 hoofdsplitsing（bedrijven 3/13 vs woningen 10/13）；A-44/A-61 + 份额靠 begroting/aandeel 佐证，<b>但界定顶层屋顶/galerij/窗框私有-公共维修边界的那份 sub-deed 缺失，须索取 + notaris 核</b>。<b>likely eigen grond</b>（Hoofddorp，无 erfpacht；确认）。</div></div>
+
+    <div class="dim"><h3>② VvE 财务 / 治理（头号）<span class="tag t-bad">中高风险</span></h3>
+      <div class="body">三层 VvE（Hoofd 40-104 + 住宅子 40-86 + 商铺子）。🚩 <b>2024 与 2025 两年年报都未通过、董事会未获 decharge</b>（起因是商铺子 VvE 账目纠缠、需 ontwarren，非舞弊）；与主 VvE 往来账 <b>€99.397</b>、crediteuren €535→<b>€22.815</b>；主 VvE"负储备"实为呈现/纠缠问题（主 VvE 约 €41.486、欠住宅子 €13.427）。<b>决定性的 2026-05-19 ALV 纪要不在包里</b>（该会要一次批两年账 + TOP 报告 + 2027 预算）→ <b>出价前必须拿到</b>。住宅子 VvE reserve €118.231（本户份额 €4.947）、2025 +€5.608——数字健康，但大半被内部往来/应付抵消。<b>董事会薄弱</b>（仅 1 董事 + 1 kascommissie，招募中）。</div></div>
+
+    <div class="dim"><h3>③ 结构 / 维护<span class="tag t-bad">混凝土裂缝逾期</span></h3>
+      <div class="body">🚩 <b>galerij-balkon 承重混凝土裂缝 + 钢筋腐蚀风险</b>——MJOP 检查员"2025 或更早"就建议修、<b>至今未修（"wederom"）、储备仅 ~€8k、安全相关</b>；且<b>一处砌体裂缝就在本户 3 楼 galerij 入口处</b>。🚩 <b>邻户 #88（Hanni Hanna 商铺）长期漏水</b>：dakdoorvoer/loodslabben，Rivago 报价 ~€18k，可能诉讼 TVO，<b>或墙体 poreus 由 VvE 自担</b>；顶层楼屋顶问题、2026 仍未了（议程有摄像项）。→ <b>必做 bouwkundige keuring</b>，问 2025 实际修了什么。</div></div>
+
+    <div class="dim"><h3>④ MJOP / 费用<span class="tag t-warn">续涨</span></h3>
+      <div class="body">MJOP 2023（ALV 决定<b>不刷新</b>，只指数化）；2028-2034 集中支出（voorgevel kozijnen、lift、garage、galerij）。0,5%-norm ≈ <b>€40k/jr</b>（herbouwwaarde €8,45M），当前住宅子拨款 <b>€26.200</b>（走 version-B 早期路径、仍低于 norm）。月费 <b>+5,9%</b>（€253,89→€268,93）；2027 议程加 <b>"sparen voor verduurzaming" + TOP 脱碳报告</b> → <b>未来续涨 / special assessment 概率高</b>。</div></div>
+
+    <div class="dim"><h3>⑤ 房况 / 能源<span class="tag t-warn">1990s · 屋顶未保温</span></h3>
+      <div class="body"><b>label B（到 2030-12）</b>，但<b>顶层转角 + 屋顶未额外保温</b>、gevel Rc 3,0、<b>gas CV-ketel（1998+，近寿命，预留更换）</b>、无 solar。bouwperiode 1992-1999。面积不虚：NEN <b>80,1 m² wonen + 7,5 OIR + 17,2 GGB（galerij/balkon）</b> + 车库储物。</div></div>
+
+    <div class="dim"><h3>⑥ 卖方 / 流程<span class="tag t-warn">遗产房 · 无披露</span></h3>
+      <div class="body"><b>遗产房</b>（De erven van L.L.M. Grolman；故者亦为 <b>VvE 前主席</b>），售款给癌症慈善 → <b>无 vragenlijst 卖方披露</b>、内部可能有延迟维护（更该验房）。open house 后需求偏弱、<b>€409k→€395k 降价</b>（卖方或重确定性/速度）。⚠️ <b>地址不一致</b>：meetstaat 正文写"Concourslaan 8"、文件夹写 88，而 energielabel/kadaster/aandeel 均 <b>86</b>——须书面厘清（3e/80m²/hoek-dak 特征都指向 86）。</div></div>
+
+    <div class="dim"><h3>⑦ 位置 / 匹配（对你朋友）<span class="tag t-good">通勤强 · 预算符</span></h3>
+      <div class="body"><b>Hoofddorp centrum</b>：Hoofddorp 站 → Amsterdam Zuid ~10-15 分，生活配套强；<b>带地下车位 PP18</b>（自住便利 + 转售流动性）；80 m² 实用。<b>要价 €395k 舒适落进朋友 &lt;€500k 预算</b>，且低于 2025 WOZ €447k、约等于 2024 WOZ。Haarlemmermeer 多为 <b>eigen grond</b>——产权那关比 Amsterdam 省心（确认）。</div></div>
+  </section>
+
+  <section class="block">
+    <h2>🚩 红旗清单（按严重度 · 已独立核验）</h2>
+    <ul class="flags">
+      <li class="sev-3"><span class="sev-ico">🚩🚩</span><span><b>2024+2025 两年年报未通过 + 无 decharge + 三层 VvE 账目纠缠</b>；决定性 2026-05-19 ALV 纪要不在包里 → <b>出价前必须拿到</b>（确认两年账是否终获批、有无 special assessment / hidden liability）。</span></li>
+      <li class="sev-3"><span class="sev-ico">🚩🚩</span><span><b>galerij 承重混凝土裂缝 + 钢筋腐蚀，逾期未修、安全相关、储备不足</b>（一处裂缝在本户楼层）→ <b>必做 keuring</b> + 问 2025 实际修了什么。</span></li>
+      <li class="sev-2"><span class="sev-ico">🚩</span><span><b>#88 漏水争议</b>（dakdoorvoer/loodslabben、Rivago ~€18k、可能诉讼、或墙体 poreus VvE 自担）——顶层屋顶问题、2026 仍未了。</span></li>
+      <li class="sev-2"><span class="sev-ico">🚩</span><span><b>ondersplitsingsakte woningen 缺失</b>（包里只有 hoofdsplitsing）→ 顶层/屋顶/galerij/窗框维修边界未证实，须索取 + notaris 核。</span></li>
+      <li class="sev-2"><span class="sev-ico">🚩</span><span><b>费用续涨</b>（+5,9%、向 €40k norm 走、2027 verduurzaming + TOP）；<b>遗产房无卖方披露</b> → keuring 更必要。</span></li>
+      <li class="sev-1"><span class="sev-ico">⚠️</span><span>1992-1999 + 屋顶未保温 + CV 1998+ 近寿命；<b>地址不一致（8/88 vs 86）须书面厘清</b>；弱董事会（1 人）。</span></li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>缺失 / 待索取文件</h2>
+    <ul class="missing">
+      <li><b>ondersplitsingsakte woningen</b>（定义 A-44/A-61 + 维修边界）</li>
+      <li><b>2026-05-19 ALV 纪要</b>（两年账是否获批 + special assessment）</li>
+      <li>vragenlijst / 卖方披露（遗产房，可能没有）</li>
+      <li>bouwkundig rapport（<b>强烈建议自做</b>）</li>
+      <li>2025 混凝土裂缝 / #88 漏水的实际修复状态</li>
+      <li>地址不一致（8/88 vs 86）书面确认</li>
+      <li>eigen grond / erfpacht 确认（likely eigen grond）</li>
+      <li>PP18 是否含在售价 + 独立义务</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>真实购入成本（@ 要价 €395.000 · <span class="needcheck">税档依朋友情况</span>）</h2>
+    <table class="cost">
+      <tr><th>项目</th><th class="num">金额</th><th>口径 / 来源</th></tr>
+      <tr><td>要价</td><td class="num">€395.000</td><td class="src">曾 €409k；同街成交 ~€400k</td></tr>
+      <tr><td>overdrachtsbelasting</td><td class="num">€0 / €7.900</td><td class="src"><span class="needcheck">依朋友：18-35+首次+自住+≤€555k → 0% starters；否则自住 2%（€7.900）；投资 8%</span></td></tr>
+      <tr><td>notaris + hypotheekadvies + taxatie</td><td class="num">≈ €4.700</td><td class="src">估算</td></tr>
+      <tr><td>bouwkundige keuring</td><td class="num">≈ €450</td><td class="src"><b>强烈建议</b>（遗产房 + 混凝土/漏水）</td></tr>
+      <tr><td>erfpachtcanon</td><td class="num">€0*</td><td class="src">*likely eigen grond（确认）</td></tr>
+      <tr class="total"><td>真实购入成本（估）</td><td class="num">≈ €400.150 / €408.050</td><td class="src">视税档；未含未来 VvE special assessment</td></tr>
+    </table>
+    <div class="asof">税费按 2026 web 复核（belastingdienst.nl）；starters 上限 €555.000〔2026·需复核〕。</div>
+  </section>
+
+  <section class="block">
+    <h2>💶 出价视图（核验朋友的策略）</h2>
+    <div style="font-size:14px">
+      <p style="margin:0 0 8px"><b>朋友的策略（推荐 €405.000、硬上限 €405k、&gt;€410k 放弃）——我核验后：站得住。</b></p>
+      <ul style="margin:0 0 8px;padding-left:20px">
+        <li><b>估值锚正确</b>：同街同档 Kadaster 真实成交（#62 €400k/2024、#78 €405k、#60 €400k）= WOZ +1~3%，指向 <b>~€400k</b>，<b>不是</b>卖方 agency 的 €475k，也不是 2025 WOZ €447k。基金会自估 €400k 更接近证据。</li>
+        <li><b>市场信号偏买方</b>：遗产房（重确定性/速度）+ open house 后需求弱 + €409k→€395k 降价。</li>
+        <li><b>我的微调</b>：鉴于<b>已核实的逾期混凝土裂缝 + #88 漏水 + 两年账未批</b>，倾向<b>下沿 €400-402k 起谈</b>，best-and-final 到 €405k 封顶；若 keuring 查出混凝土/屋顶波及 #86，<b>据此再降或退出</b>。<b>&gt;€410k 放弃</b>——再往上就是替卖方扛本该卖方担的风险。</li>
+        <li><b>条款</b>：保留 <b>financieringsvoorbehoud</b>（除非朋友贷款顾问确认可安全放弃）+ <b>bouwkundige keuring 保留</b>；用交割灵活/清晰融资证明来增强，而非加价。<b>把成交条件挂钩"2026 ALV 两年账获批 + 无重大 special assessment"</b>。</li>
+      </ul>
+      <p class="src" style="margin:0">注：完整出价上限需朋友的自有资金/贷款额才能钉死；上述基于其 &lt;€500k 预算 + 同街成交证据，非 taxatie。</p>
+    </div>
+  </section>
+
+  <footer class="disc">
+    本报告基于所提供 dossier（splitsingsakte[hoofd]、MJOP A/B + toelichting、jaarrekening 2025、begroting 2026、notulen ALV 2025-05-12、agenda 2026、energielabel、aandeel reservefonds、meetcertificaat、kadaster）+ 你朋友的既有审查（已<b>独立核验</b>：数字属实）+ 公开市场/Kadaster 成交数据的<strong>分析建议</strong>，<strong>不构成持牌 aankoopmakelaar、financieel、juridisch 或 fiscaal 专业意见</strong>。
+    2026-05-19 ALV 结果、ondersplitsingsakte、混凝土/漏水修复状态、地址一致性、eigen grond 与税档务必由 makelaar/notaris 书面确认。买家为用户朋友（非 Qingyu）；税/月供/出价依朋友自住与融资情况。
+    <div class="asof">数据截至 2026-07-09 · VvE Concourslaan 40 t/m 104（5041-O2）· bouwjaar 1992-1999</div>
+  </footer>
+
+</div>
+</body>
+</html>
