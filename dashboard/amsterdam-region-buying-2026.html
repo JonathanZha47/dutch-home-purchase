@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>荷兰买房助手 · 区域与社区</title>
+  <style>
+    :root {
+      --bg: #f4f1eb;
+      --card: #fffdf8;
+      --ink: #1c1917;
+      --muted: #78716c;
+      --accent: #c45c26;
+      --accent-soft: #fdebd3;
+      --green: #166534;
+      --green-bg: #dcfce7;
+      --amber: #92400e;
+      --amber-bg: #fef3c7;
+      --border: #e7e5e4;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      background: linear-gradient(180deg, #ebe4d8 0%, var(--bg) 120px);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    .top-nav { display: flex; gap: .5rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+    .top-nav a {
+      text-decoration: none;
+      padding: .45rem .85rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--ink);
+      font-size: .9rem;
+    }
+    .top-nav a.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    header.page {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid var(--accent);
+    }
+    header.page h1 { margin: 0 0 .35rem; font-size: 2rem; }
+    header.page p { margin: 0; color: var(--muted); max-width: 820px; }
+    .chips { display: flex; gap: .45rem; flex-wrap: wrap; margin-top: 1rem; }
+    .chip {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 999px;
+      padding: .25rem .65rem;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(28,25,23,.08);
+      padding: 1.15rem 1.25rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+    }
+    .panel h2 { margin: 0 0 .35rem; font-size: 1.35rem; }
+    .meta { color: var(--muted); margin: .2rem 0 1rem; }
+    .region-grid, .budget-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: .85rem;
+    }
+    .card, .mini {
+      background: #fafaf9;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .95rem 1rem;
+    }
+    .card header {
+      display: flex;
+      justify-content: space-between;
+      gap: .75rem;
+      align-items: flex-start;
+      margin-bottom: .45rem;
+    }
+    .card h3, .mini h3 { margin: 0; font-size: 1.05rem; }
+    .card p, .mini p { margin: .45rem 0; }
+    .score {
+      background: #292524;
+      color: #fafaf9;
+      border-radius: 8px;
+      padding: .2rem .5rem;
+      font-weight: 700;
+    }
+    .deep {
+      display: inline-block;
+      text-decoration: none;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      border-radius: 8px;
+      padding: .4rem .7rem;
+      margin-top: .35rem;
+      font-size: .9rem;
+    }
+    .mini strong { color: var(--green); }
+    table { width: 100%; border-collapse: collapse; background: var(--card); font-size: .92rem; }
+    th, td { border: 1px solid var(--border); padding: .55rem .65rem; vertical-align: top; }
+    th { background: #292524; color: #fafaf9; text-align: left; }
+    a { color: var(--accent); }
+    .sources { columns: 2; color: var(--muted); }
+    .sources li { margin-bottom: .5rem; }
+    @media (max-width: 700px) {
+      .wrap { padding: 1rem .75rem 3rem; }
+      .sources { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="top-nav">
+      <a href="index.html">深度分析看板</a>
+      <a href="search-board.html">搜房 Inbox</a>
+      <a href="amsterdam-region-buying-2026.html" class="active">区域/社区</a>
+    </nav>
+
+    <header class="page">
+      <h1>荷兰买房助手 · 区域与社区</h1>
+      <p>覆盖 Almere、Weesp、Zaandam、Nieuw-West、Amstelveen、Bijlmer、Gaasperplas/Nellestein 与 Hoofddorp。这个页面是主看板的区域层：先看 community 背景、安全/宜居属性和投资属性，再回到单套房源卡片做出价判断。</p>
+      <div class="chips">
+        <span class="chip">预算视角: 约 EUR 400k</span>
+        <span class="chip">通勤核心: Amsterdam Zuid / VU</span>
+        <span class="chip">更新日: 2026-07-04</span>
+      </div>
+    </header>
+
+    <section class="panel" id="areas">
+      <h2>社区深度页入口</h2>
+      <p class="meta">如果一个区域涉及多个社区，已拆到同一 sub page 内分别说明。</p>
+      <div class="region-grid">
+        <article class="card"><header><h3>Almere</h3><span class="score">82</span></header><p>面积换通勤：预算效率最高，但社区差异和出租限制要逐套看。</p><p class="meta"><strong>涉及社区：</strong>Stedenwijk Midden-west、Muziekwijk Noord</p><a class="deep" href="community/almere.html">打开社区深度页</a></article>
+        <article class="card"><header><h3>Weesp</h3><span class="score">75</span></header><p>小城稳定型：通勤和居住质感好，供应少，投资更偏保守。</p><p class="meta"><strong>涉及社区：</strong>Hogewey-Noord、Weespersluis</p><a class="deep" href="community/weesp.html">打开社区深度页</a></article>
+        <article class="card"><header><h3>Zaandam</h3><span class="score">78</span></header><p>到 Amsterdam CS 很强：站区新房好用，但 erfpacht 是核心陷阱。</p><p class="meta"><strong>涉及社区：</strong>Zaans Hout / Murano / Teakhout</p><a class="deep" href="community/zaandam.html">打开社区深度页</a></article>
+        <article class="card"><header><h3>Amsterdam Nieuw-West</h3><span class="score">80</span></header><p>同是 Nieuw-West，Dijkgraafplein 和 De Aker 完全不是同一种投资逻辑。</p><p class="meta"><strong>涉及社区：</strong>Dijkgraafpleinbuurt、De Aker-West</p><a class="deep" href="community/nieuw-west.html">打开社区深度页</a></article>
+        <article class="card"><header><h3>Amstelveen</h3><span class="score">77</span></header><p>租客质量与近 Zuid/VU 是卖点，但 EUR 400k 预算通常买不到完美硬件。</p><p class="meta"><strong>涉及社区：</strong>Vredeveldbuurt、Randwijck Oost、Rembrandtweg</p><a class="deep" href="community/amstelveen.html">打开社区深度页</a></article>
+        <article class="card"><header><h3>Bijlmer / Amsterdam Zuidoost</h3><span class="score">84</span></header><p>预算内最强面积+通勤组合，但要按 buurt 和楼栋精细筛。</p><p class="meta"><strong>涉及社区：</strong>Venserpolder-West、F-buurt、G-buurt-West、Haardstee</p><a class="deep" href="community/bijlmer.html">打开社区深度页</a></article>
+        <article class="card"><header><h3>Gaasperplas / Nellestein</h3><span class="score">79</span></header><p>绿地和湖区体验强，投资看大面积和车位，风险看 VvE。</p><p class="meta"><strong>涉及社区：</strong>L-buurt / Leksmondhof</p><a class="deep" href="community/gaasperplas.html">打开社区深度页</a></article>
+        <article class="card"><header><h3>Hoofddorp</h3><span class="score">83</span></header><p>省心通勤型：本轮没有新 Funda 链接，但仍应保留为基准区。</p><p class="meta"><strong>涉及社区：</strong>Centrum / Station corridor</p><a class="deep" href="community/hoofddorp.html">打开社区深度页</a></article>
+      </div>
+    </section>
+
+    <section class="panel" id="budget">
+      <h2>EUR 400k 左右可以买到什么</h2>
+      <p class="meta">按本轮样本和区域经验做的买房画像；成交价、kk、VvE 与 erfpacht 仍需单套复核。</p>
+      <div class="budget-grid">
+        <article class="mini"><strong>优先看</strong><h3>Bijlmer / Gaasperplas / Hoofddorp</h3><p>通勤和出租流动性更贴近你的使用场景。Bijlmer/Gaasperplas 买面积，Hoofddorp 买省心。</p></article>
+        <article class="mini"><strong>性价比</strong><h3>Almere / Zaandam</h3><p>Almere 面积最大；Zaandam 到 CS 极快。但两者去 Zuid 不如 Hoofddorp/Bijlmer，Zaandam 地租风险要扣分。</p></article>
+        <article class="mini"><strong>位置型</strong><h3>Amstelveen / Nieuw-West</h3><p>租客池和 Amsterdam/近 Zuid 属性强，但 EUR 400k 通常要牺牲能效、楼龄或面积。</p></article>
+        <article class="mini"><strong>小众稳</strong><h3>Weesp</h3><p>火车很强、居住安静，但供应少，适合遇到好单套再下手。</p></article>
+      </div>
+    </section>
+
+    <section class="panel" id="mapping">
+      <h2>房源涉及社区映射</h2>
+      <p class="meta">从这里可以看出哪些大区内部实际包含多个社区。</p>
+      <table>
+        <thead><tr><th>区域</th><th>涉及社区</th><th>链接数</th><th>深度页</th></tr></thead>
+        <tbody>
+          <tr><td>Almere</td><td>Zeistpad / Muziekwijk / Staatsliedenwijk</td><td>5 links</td><td><a href="community/almere.html">Almere 深度页</a></td></tr>
+          <tr><td>Weesp</td><td>Hogewey-Noord / Fort Heemstede corridor</td><td>2 links</td><td><a href="community/weesp.html">Weesp 深度页</a></td></tr>
+          <tr><td>Zaandam</td><td>Zaans Hout / Murano / Teakhout</td><td>4 links</td><td><a href="community/zaandam.html">Zaandam 深度页</a></td></tr>
+          <tr><td>Nieuw-West</td><td>Dijkgraafpleinbuurt / De Aker-West/Oost</td><td>6 links</td><td><a href="community/nieuw-west.html">Nieuw-West 深度页</a></td></tr>
+          <tr><td>Amstelveen</td><td>Vredeveld / Randwijck / Rembrandtweg-Zonnestein</td><td>6 links</td><td><a href="community/amstelveen.html">Amstelveen 深度页</a></td></tr>
+          <tr><td>Bijlmer</td><td>Venserpolder / F-buurt / G-buurt / Haardstee</td><td>5 links</td><td><a href="community/bijlmer.html">Bijlmer 深度页</a></td></tr>
+          <tr><td>Gaasperplas</td><td>L-buurt / Nellestein / Leksmondhof</td><td>3 links</td><td><a href="community/gaasperplas.html">Gaasperplas 深度页</a></td></tr>
+          <tr><td>Hoofddorp</td><td>Centrum / Station corridor</td><td>区域基准</td><td><a href="community/hoofddorp.html">Hoofddorp 深度页</a></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel" id="sources">
+      <h2>来源与假设</h2>
+      <ul class="sources">
+        <li><a href="https://www.leefbaarometer.nl/" target="_blank" rel="noopener">Leefbaarometer 2024</a> - 官方宜居/overlast & onveiligheid 参考。</li>
+        <li><a href="https://www.cbs.nl/nl-nl/visualisaties/cijfers-op-de-kaart" target="_blank" rel="noopener">CBS Cijfers op de kaart</a> - 人口、能效、区域统计官方入口。</li>
+        <li><a href="https://allecijfers.nl/" target="_blank" rel="noopener">AlleCijfers</a> - 交叉核对人口、迁移背景、年龄结构。</li>
+        <li><a href="https://www.funda.nl/" target="_blank" rel="noopener">Funda</a> - 挂牌价、面积、能效、VvE、产权和 buurt 名称。</li>
+      </ul>
+    </section>
+  </div>
+</body>
+</html>

@@ -1,457 +1,912 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>荷兰买房助手 · 房源对比</title>
-  <style>
-    :root {
-      --bg: #f4f1eb;
-      --card: #fffdf8;
-      --ink: #1c1917;
-      --muted: #78716c;
-      --accent: #c45c26;
-      --accent-soft: #fdebd3;
-      --green: #166534;
-      --green-bg: #dcfce7;
-      --red: #991b1b;
-      --red-bg: #fee2e2;
-      --amber: #92400e;
-      --amber-bg: #fef3c7;
-      --border: #e7e5e4;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-      background: linear-gradient(180deg, #ebe4d8 0%, var(--bg) 120px);
-      color: var(--ink);
-      line-height: 1.5;
-    }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
-    header.page {
-      margin-bottom: 2rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 2px solid var(--accent);
-    }
-    header.page h1 {
-      margin: 0 0 .25rem;
-      font-size: 2rem;
-      letter-spacing: -0.02em;
-    }
-    header.page p { margin: 0; color: var(--muted); }
-    .comparison-table, .score-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: .92rem;
-      background: var(--card);
-    }
-    .comparison-table th, .comparison-table td,
-    .score-table th, .score-table td {
-      border: 1px solid var(--border);
-      padding: .55rem .65rem;
-      text-align: center;
-    }
-    .comparison-table th, .score-table th {
-      background: #292524;
-      color: #fafaf9;
-      font-weight: 600;
-    }
-    .comparison-table td:nth-child(2) { text-align: left; }
-    .comparison-wrap {
-      overflow-x: auto;
-      margin-bottom: 2.5rem;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(28,25,23,.08);
-    }
-    .listing-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.25rem 1.35rem 1rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 6px 18px rgba(28,25,23,.06);
-    }
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-    }
-    .card-header h2 { margin: 0; font-size: 1.35rem; }
-    .card-header a { color: var(--accent); text-decoration: none; }
-    .card-header a:hover { text-decoration: underline; }
-    .meta { color: var(--muted); font-size: .9rem; margin: .25rem 0 0; }
-    .badges { display: flex; flex-direction: column; align-items: flex-end; gap: .35rem; }
-    .verdict {
-      display: inline-block;
-      padding: .2rem .65rem;
-      border-radius: 999px;
-      font-size: .82rem;
-      font-weight: 600;
-    }
-    .verdict-strong { background: var(--green-bg); color: var(--green); }
-    .verdict-good { background: #dbeafe; color: #1e40af; }
-    .verdict-caution { background: var(--amber-bg); color: var(--amber); }
-    .verdict-reject { background: var(--red-bg); color: var(--red); }
-    .total-score {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: .75rem;
-      margin-bottom: 1rem;
-    }
-    .stats-grid .label {
-      display: block;
-      font-size: .78rem;
-      text-transform: uppercase;
-      letter-spacing: .04em;
-      color: var(--muted);
-    }
-    .stats-grid .value { font-weight: 700; font-size: 1.05rem; }
-    .score-table { margin-bottom: 1rem; border-radius: 8px; overflow: hidden; }
-    .score-high { background: var(--green-bg); color: var(--green); font-weight: 600; }
-    .score-mid { background: var(--amber-bg); color: var(--amber); }
-    .score-low { background: var(--red-bg); color: var(--red); }
-    .score-na { background: #f5f5f4; color: var(--muted); }
-    .total-cell { font-weight: 700; background: var(--accent-soft) !important; }
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-    @media (max-width: 700px) {
-      .two-col { grid-template-columns: 1fr; }
-      .card-header { flex-direction: column; }
-      .badges { align-items: flex-start; }
-    }
-    .two-col h3, .vve-box h3 {
-      margin: 0 0 .5rem;
-      font-size: .95rem;
-      text-transform: uppercase;
-      letter-spacing: .05em;
-      color: var(--muted);
-    }
-    .pros li { color: var(--green); }
-    .cons li { color: var(--red); }
-    ul { margin: 0; padding-left: 1.2rem; }
-    .vve-box {
-      background: #fafaf9;
-      border: 1px dashed var(--border);
-      border-radius: 10px;
-      padding: .85rem 1rem;
-      margin-bottom: .75rem;
-    }
-    .pricing-box {
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      border-radius: 10px;
-      padding: .85rem 1rem;
-      margin-bottom: 1rem;
-    }
-    .pricing-box h3 { margin: 0 0 .65rem; color: #1e40af; }
-    .flags { display: flex; flex-wrap: wrap; gap: .4rem; margin: .5rem 0; }
-    .flag {
-      background: var(--red-bg);
-      color: var(--red);
-      font-size: .78rem;
-      padding: .15rem .5rem;
-      border-radius: 6px;
-    }
-    .card-footer {
-      display: flex;
-      justify-content: space-between;
-      font-size: .82rem;
-      color: var(--muted);
-      border-top: 1px solid var(--border);
-      padding-top: .65rem;
-    }
-    .empty { color: var(--muted); font-style: italic; }
-    .muted { color: var(--muted); }
-    .top-nav { display: flex; gap: .5rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
-    .top-nav a { text-decoration: none; padding: .45rem .85rem; border-radius: 999px;
-      border: 1px solid var(--border); background: var(--card); color: var(--ink); font-size: .9rem; }
-    .top-nav a.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>荷兰买房助手</title>
+<style>
+:root{
+  --bg:#f4f1eb;--card:#fffdf8;--ink:#1c1917;--muted:#78716c;
+  --accent:#c45c26;--accent-soft:#fdebd3;
+  --green:#166534;--green-bg:#dcfce7;
+  --red:#991b1b;--red-bg:#fee2e2;
+  --amber:#92400e;--amber-bg:#fef3c7;
+  --blue:#1e40af;--blue-bg:#dbeafe;
+  --border:#e7e5e4;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  background:linear-gradient(180deg,#ebe4d8 0%,var(--bg) 120px);
+  color:var(--ink);line-height:1.5;
+}
+.wrap{max-width:1150px;margin:0 auto;padding:1.5rem 1.25rem 4rem;}
+
+/* ── Header ── */
+.page-header{
+  margin-bottom:1.5rem;padding-bottom:1.25rem;
+  border-bottom:2px solid var(--accent);
+  display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:.5rem;
+}
+.page-header h1{margin:0;font-size:1.85rem;letter-spacing:-.02em;}
+.page-header p{margin:0;color:var(--muted);font-size:.9rem;}
+
+/* ── Tabs ── */
+.tab-nav{
+  display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.75rem;
+  padding:.5rem;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;box-shadow:0 2px 8px rgba(28,25,23,.05);
+}
+.tab-btn{
+  padding:.45rem 1.1rem;border:none;background:transparent;
+  border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:500;
+  color:var(--muted);font-family:inherit;transition:all .15s;
+}
+.tab-btn:hover{background:var(--accent-soft);color:var(--accent);}
+.tab-btn.active{background:var(--accent);color:#fff;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* ── Overview stats ── */
+.stat-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1rem;margin-bottom:2rem;
+}
+.stat-card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:1.25rem;text-align:center;
+  box-shadow:0 4px 12px rgba(28,25,23,.06);
+}
+.stat-num{display:block;font-size:2.5rem;font-weight:700;color:var(--accent);line-height:1;}
+.stat-label{display:block;font-size:.82rem;color:var(--muted);margin-top:.35rem;text-transform:uppercase;letter-spacing:.04em;}
+
+/* ── Tables ── */
+.table-wrap{overflow-x:auto;border-radius:10px;box-shadow:0 4px 16px rgba(28,25,23,.07);margin-bottom:1.5rem;}
+.data-table{width:100%;border-collapse:collapse;font-size:.88rem;background:var(--card);}
+.data-table th{
+  background:#292524;color:#fafaf9;font-weight:600;
+  padding:.55rem .7rem;text-align:left;white-space:nowrap;
+}
+.data-table td{
+  border-bottom:1px solid var(--border);padding:.5rem .7rem;vertical-align:middle;
+}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:#faf9f7;}
+.score-high{background:var(--green-bg);color:var(--green);font-weight:700;text-align:center;}
+.score-mid{background:var(--amber-bg);color:var(--amber);font-weight:700;text-align:center;}
+.score-low{background:var(--red-bg);color:var(--red);font-weight:700;text-align:center;}
+
+/* ── Badges & pills ── */
+.badge{
+  display:inline-block;padding:.15rem .5rem;border-radius:6px;
+  font-size:.78rem;font-weight:700;
+}
+.badge-green{background:var(--green-bg);color:var(--green);}
+.badge-blue{background:var(--blue-bg);color:var(--blue);}
+.badge-amber{background:var(--amber-bg);color:var(--amber);}
+.badge-red{background:var(--red-bg);color:var(--red);}
+.badge-gray{background:#f3f4f6;color:#374151;}
+.pill{
+  display:inline-block;padding:.1rem .45rem;border-radius:999px;
+  font-size:.75rem;font-weight:600;margin-right:.2rem;
+}
+.pill-gray{background:#f3f4f6;color:#374151;}
+.pill-blue{background:var(--blue-bg);color:var(--blue);}
+.pill-amber{background:var(--amber-bg);color:var(--amber);}
+.pill-green{background:var(--green-bg);color:var(--green);}
+.flag{
+  display:inline-block;background:var(--red-bg);color:var(--red);
+  font-size:.72rem;padding:.1rem .4rem;border-radius:4px;margin:.15rem .1rem;
+}
+.region-tag{
+  display:inline-block;font-size:.75rem;padding:.1rem .4rem;
+  border-radius:4px;background:#f1f5f9;color:#475569;margin-left:.3rem;
+}
+
+/* ── Buttons / links ── */
+.btn-link{
+  display:inline-block;padding:.15rem .5rem;border-radius:5px;
+  font-size:.78rem;background:var(--accent-soft);color:var(--accent);
+  text-decoration:none;margin-right:.3rem;
+}
+.btn-link:hover{background:var(--accent);color:#fff;}
+
+/* ── VvE cards ── */
+.vve-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;}
+.vve-card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:1.1rem;box-shadow:0 4px 14px rgba(28,25,23,.06);
+}
+.vve-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem;}
+.vve-addr{font-size:1.05rem;font-weight:700;}
+.vve-city{color:var(--muted);font-size:.88rem;margin-left:.3rem;}
+.vve-verdict{color:var(--muted);font-size:.86rem;margin-bottom:.6rem;}
+.flags-row{margin-bottom:.7rem;}
+.vve-links{margin-top:.25rem;}
+
+/* ── Bidding cards ── */
+.bid-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.25rem;}
+.bid-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:1.25rem;box-shadow:0 6px 18px rgba(28,25,23,.07);
+}
+.bid-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;}
+.bid-card-header h3{margin:0;font-size:1.15rem;}
+.bid-city{color:var(--muted);font-weight:400;font-size:.9rem;}
+.bid-stats{
+  display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.75rem;font-size:.86rem;
+  color:var(--muted);
+}
+.bid-stats span{
+  background:#f8f8f7;border:1px solid var(--border);
+  border-radius:999px;padding:.1rem .55rem;
+}
+.bid-verdict{font-size:.88rem;margin-bottom:.75rem;}
+.bid-links{margin-top:.25rem;}
+
+/* ── Area analysis ── */
+.area-top-link{margin-bottom:1.5rem;}
+.area-main-btn{
+  display:inline-block;padding:.65rem 1.4rem;background:var(--accent);color:#fff;
+  text-decoration:none;border-radius:10px;font-weight:600;font-size:.95rem;
+}
+.area-main-btn:hover{background:#a04d1f;}
+.area-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+.area-card{
+  display:block;background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:1.1rem;text-decoration:none;color:var(--ink);
+  box-shadow:0 4px 12px rgba(28,25,23,.05);transition:box-shadow .15s;
+}
+.area-card:hover{box-shadow:0 8px 24px rgba(28,25,23,.12);}
+.area-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem;}
+.area-name{font-weight:700;font-size:1.05rem;}
+.tier-badge{
+  font-size:.78rem;font-weight:700;padding:.15rem .5rem;border-radius:6px;
+}
+.tier-s{background:var(--green-bg);color:var(--green);}
+.tier-a{background:var(--blue-bg);color:var(--blue);}
+.tier-b{background:var(--amber-bg);color:var(--amber);}
+.area-desc{font-size:.85rem;color:var(--muted);}
+.area-link-row{margin-top:1.5rem;}
+.area-main-link{
+  display:inline-block;padding:.5rem 1.1rem;border-radius:8px;
+  background:var(--accent-soft);color:var(--accent);font-weight:600;text-decoration:none;
+}
+.area-main-link:hover{background:var(--accent);color:#fff;}
+
+/* ── Misc ── */
+.section-title{
+  font-size:.95rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
+  margin:1.5rem 0 .75rem;
+}
+.tab-intro{color:var(--muted);font-size:.9rem;margin:0 0 1rem;}
+@media(max-width:600px){
+  .page-header{flex-direction:column;align-items:flex-start;}
+  .tab-nav{gap:.25rem;}
+  .tab-btn{font-size:.82rem;padding:.4rem .75rem;}
+}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <nav class="top-nav">
-      <a href="index.html" class="active">深度分析看板</a>
-      <a href="search-board.html">搜房 Inbox</a>
-    </nav>
-    <header class="page">
-      <h1>荷兰买房助手 · 房源库</h1>
-      <p>预算 ≤ €500k · 2000年后 · 能效 B+ · 共 4 套 · 更新于 2026-06-16 23:13 UTC</p>
-    </header>
+<div class="wrap">
 
-    <section class="comparison-wrap">
-      <h2 style="margin-top:0">总览对比</h2>
-      <table class="comparison-table"><thead><tr><th>排名</th><th>地址</th><th>挂牌</th><th>公允价</th><th>预估成交</th><th>真实成本</th><th>溢价</th><th>总分</th><th>结论</th></tr></thead><tbody><tr><td>1</td><td><a href="https://www.funda.nl/detail/80838370" target="_blank" rel="noopener">Haardstee 29, Amsterdam (Bijlmer)</a></td><td>€345,000</td><td>€352,840</td><td>€350,000</td><td>€373,500</td><td>1.5%</td><td class="total-cell">24.5</td><td><span class="verdict verdict-good">值得看房（务实派：空间+交通，妥协房龄）</span></td></tr><tr><td>2</td><td><a href="https://www.funda.nl/detail/44463784" target="_blank" rel="noopener">Nieuweweg 83-H, Hoofddorp</a></td><td>€365,000</td><td>€367,455</td><td>€383,000</td><td>€389,000</td><td>4.9%</td><td class="total-cell">24</td><td><span class="verdict verdict-good">值得看房（省心高品质，牺牲面积）</span></td></tr><tr><td>3</td><td><a href="https://www.funda.nl/detail/43321027" target="_blank" rel="noopener">Ruigenburg 31, Gouda</a></td><td>€325,000</td><td>€296,533</td><td>€325,000</td><td>€331,000</td><td>0.0%</td><td class="total-cell">21.5</td><td><span class="verdict verdict-reject">淘汰</span></td></tr><tr><td>4</td><td><a href="https://www.funda.nl/detail/80827149" target="_blank" rel="noopener">Vurehout 435, Zaandam</a></td><td>€395,000</td><td>€419,302</td><td>€414,000</td><td>€450,000</td><td>4.8%</td><td class="total-cell">19.5</td><td><span class="verdict verdict-caution">备选（硬件王者，地租是坑）</span></td></tr></tbody></table>
-    </section>
-
-    <section>
-      <h2>详细卡片</h2>
-      
-    <article class="listing-card" id="listing-80827149">
-      <header class="card-header">
-        <div>
-          <h2><a href="https://www.funda.nl/detail/80827149" target="_blank" rel="noopener">Vurehout 435, Zaandam</a></h2>
-          <p class="meta">Zaandam · 1507 · 2017 · Label A+</p>
-        </div>
-        <div class="badges">
-          <span class="verdict verdict-caution">备选（硬件王者，地租是坑）</span>
-          <span class="total-score">19.5/30</span>
-        </div>
-      </header>
-
-      <div class="stats-grid">
-        <div><span class="label">挂牌价</span><span class="value">€395,000</span></div>
-        <div><span class="label">预估成交价</span><span class="value">€414,000</span></div>
-        <div><span class="label">真实总成本</span><span class="value">€450,000</span></div>
-        <div><span class="label">面积</span><span class="value">88 m²</span></div>
-        <div><span class="label">VvE/月</span><span class="value">€170</span></div>
-        <div><span class="label">月持有成本</span><span class="value">€453</span></div>
-      </div>
-
-      <table class="score-table">
-        <thead><tr><th>质量</th><th>面积</th><th>买菜</th><th>网球</th><th>交通</th><th>财务</th><th>总分</th></tr></thead>
-        <tbody><tr><td class="score-high">5</td><td class="score-mid">4</td><td class="score-low">2</td><td class="score-low">2.5</td><td class="score-mid">4</td><td class="score-low">2</td><td class="total-cell">19.5</td></tr></tbody>
-      </table>
-
-      
-      <section class="pricing-box">
-        <h3>成交价预估 (Level 1 · CBS)</h3>
-        <div class="stats-grid">
-          <div><span class="label">CBS 公允价</span><span class="value">€419,302</span></div>
-          <div><span class="label">预估溢价</span><span class="value">4.8%</span></div>
-          <div><span class="label">置信度</span><span class="value">medium-high</span></div>
-          <div><span class="label">模型</span><span class="value">level1_cbs</span></div>
-        </div>
-        <p class="meta">CBS 模型公允价 €419,302 高于挂牌，但弱区环境压制溢价。 模型预估成交 €414,000（较挂牌 +€19,000）。</p>
-      </section>
-        
-
-      <div class="two-col">
-        <section>
-          <h3>优点</h3>
-          <ul class="pros"><li>2017年新房，A+ 能效，88㎡ 大两居</li><li>自带 Private Garage（价值约 €3–4万）</li><li>挂牌虽高，溢价后仍可能在预算内</li><li>去 Amsterdam Centraal 火车极快</li></ul>
-        </section>
-        <section>
-          <h3>缺点</h3>
-          <ul class="cons"><li>Erfpacht 2027 年后每年 €3,402，或需 ~€30k 买断</li><li>真实总成本接近 €426k，月持有成本 ~€453</li><li>买菜需外送或骑车，网球约 5km</li><li>性价比被地租严重拉低</li></ul>
-        </section>
-      </div>
-
-      <section class="vve-box">
-        <h3>VvE 分析</h3>
-        <p>VvE 分项：公寓 €130.84 + 车库/储藏 €38.80，对 2017 年楼合理。主要财务风险在 Erfpacht 而非 VvE。</p>
-        <div class="flags"><span class="muted">无明显红旗</span></div>
-        <p class="meta">Erfpacht: 地租预付至 2027-02；之后约 €3,402/年（≈€283/月）</p>
-      </section>
-
-      <footer class="card-footer">
-        <span>分析日期: 2026-06-17</span>
-        <span>状态: active</span>
-      </footer>
-    </article>
-    
-    <article class="listing-card" id="listing-44463784">
-      <header class="card-header">
-        <div>
-          <h2><a href="https://www.funda.nl/detail/44463784" target="_blank" rel="noopener">Nieuweweg 83-H, Hoofddorp</a></h2>
-          <p class="meta">Hoofddorp · 2132 · 2018 · Label A</p>
-        </div>
-        <div class="badges">
-          <span class="verdict verdict-good">值得看房（省心高品质，牺牲面积）</span>
-          <span class="total-score">24/30</span>
-        </div>
-      </header>
-
-      <div class="stats-grid">
-        <div><span class="label">挂牌价</span><span class="value">€365,000</span></div>
-        <div><span class="label">预估成交价</span><span class="value">€383,000</span></div>
-        <div><span class="label">真实总成本</span><span class="value">€389,000</span></div>
-        <div><span class="label">面积</span><span class="value">70 m²</span></div>
-        <div><span class="label">VvE/月</span><span class="value">€130</span></div>
-        <div><span class="label">月持有成本</span><span class="value">€130</span></div>
-      </div>
-
-      <table class="score-table">
-        <thead><tr><th>质量</th><th>面积</th><th>买菜</th><th>网球</th><th>交通</th><th>财务</th><th>总分</th></tr></thead>
-        <tbody><tr><td class="score-high">4.5</td><td class="score-low">2</td><td class="score-high">5</td><td class="score-mid">4</td><td class="score-high">4.5</td><td class="score-mid">4</td><td class="total-cell">24</td></tr></tbody>
-      </table>
-
-      
-      <section class="pricing-box">
-        <h3>成交价预估 (Level 1 · CBS)</h3>
-        <div class="stats-grid">
-          <div><span class="label">CBS 公允价</span><span class="value">€367,455</span></div>
-          <div><span class="label">预估溢价</span><span class="value">4.9%</span></div>
-          <div><span class="label">置信度</span><span class="value">medium-high</span></div>
-          <div><span class="label">模型</span><span class="value">level1_cbs</span></div>
-        </div>
-        <p class="meta">模型预估成交 €383,000（较挂牌 +€18,000）。</p>
-      </section>
-        
-
-      <div class="two-col">
-        <section>
-          <h3>优点</h3>
-          <ul class="pros"><li>极新 A 级能效，Eigen grond 无地租烦恼</li><li>下楼即是超市，生活配套满分</li><li>火车直达 Amsterdam Zuid，通勤最顺之一</li><li>适合 expat 出租，流动性顶级</li></ul>
-        </section>
-        <section>
-          <h3>缺点</h3>
-          <ul class="cons"><li>仅 70㎡ 一居室，空间是最大硬伤</li><li>Hoofddorp 可能有飞机噪音（开窗/阳台）</li><li>单价偏高，同样预算买到的面积最小</li></ul>
-        </section>
-      </div>
-
-      <section class="vve-box">
-        <h3>VvE 分析</h3>
-        <p>现代公寓 VvE 费用正常。建议看房时确认 MJOP 和 reservefonds 是否健康。</p>
-        <div class="flags"><span class="muted">无明显红旗</span></div>
-        <p class="meta">Erfpacht: 永久产权，无地租</p>
-      </section>
-
-      <footer class="card-footer">
-        <span>分析日期: 2026-06-17</span>
-        <span>状态: active</span>
-      </footer>
-    </article>
-    
-    <article class="listing-card" id="listing-80838370">
-      <header class="card-header">
-        <div>
-          <h2><a href="https://www.funda.nl/detail/80838370" target="_blank" rel="noopener">Haardstee 29, Amsterdam (Bijlmer)</a></h2>
-          <p class="meta">Amsterdam · 1102 · 1981 · Label B</p>
-        </div>
-        <div class="badges">
-          <span class="verdict verdict-good">值得看房（务实派：空间+交通，妥协房龄）</span>
-          <span class="total-score">24.5/30</span>
-        </div>
-      </header>
-
-      <div class="stats-grid">
-        <div><span class="label">挂牌价</span><span class="value">€345,000</span></div>
-        <div><span class="label">预估成交价</span><span class="value">€350,000</span></div>
-        <div><span class="label">真实总成本</span><span class="value">€373,500</span></div>
-        <div><span class="label">面积</span><span class="value">91 m²</span></div>
-        <div><span class="label">VvE/月</span><span class="value">€264</span></div>
-        <div><span class="label">月持有成本</span><span class="value">€264</span></div>
-      </div>
-
-      <table class="score-table">
-        <thead><tr><th>质量</th><th>面积</th><th>买菜</th><th>网球</th><th>交通</th><th>财务</th><th>总分</th></tr></thead>
-        <tbody><tr><td class="score-low">2.5</td><td class="score-high">5</td><td class="score-mid">3.5</td><td class="score-mid">3.5</td><td class="score-high">5</td><td class="score-high">5</td><td class="total-cell">24.5</td></tr></tbody>
-      </table>
-
-      
-      <section class="pricing-box">
-        <h3>成交价预估 (Level 1 · CBS)</h3>
-        <div class="stats-grid">
-          <div><span class="label">CBS 公允价</span><span class="value">€352,840</span></div>
-          <div><span class="label">预估溢价</span><span class="value">1.5%</span></div>
-          <div><span class="label">置信度</span><span class="value">medium-high</span></div>
-          <div><span class="label">模型</span><span class="value">level1_cbs</span></div>
-        </div>
-        <p class="meta">邻里有 social housing，竞价压力低于 Amsterdam 均价所暗示的水平。 模型预估成交 €350,000（较挂牌 +€5,000）。</p>
-      </section>
-        
-
-      <div class="two-col">
-        <section>
-          <h3>优点</h3>
-          <ul class="pros"><li>91㎡ 三居复式，同预算空间最大</li><li>地铁直达 Amsterdam Zuid/Centraal，可省买车</li><li>地租已付至 2031，短期财务压力小</li><li>总价低，出租需求强（学生/白领）</li></ul>
-        </section>
-        <section>
-          <h3>缺点</h3>
-          <ul class="cons"><li>1981 年建，违反「2000年后」偏好（需主动妥协）</li><li>VvE €264/月偏高，未来大修风险需核实</li><li>紧邻 social housing，区域一般，预估仅需小幅溢价（~€35万成交）</li><li>老楼隔音/维护不如现代公寓</li></ul>
-        </section>
-      </div>
-
-      <section class="vve-box">
-        <h3>VvE 分析</h3>
-        <p>老楼 VvE 偏高较常见。务必索要 VvE jaarverslag、reservefonds 余额、是否有 gevel/dak 大修计划。</p>
-        <div class="flags"><span class="flag">1980s_building_high_vve</span><span class="flag">verify_mjop_and_reservefonds</span></div>
-        <p class="meta">Erfpacht: 地租已付至 2031-10；永久买断约 €15–20k</p>
-      </section>
-
-      <footer class="card-footer">
-        <span>分析日期: 2026-06-17</span>
-        <span>状态: active</span>
-      </footer>
-    </article>
-    
-    <article class="listing-card" id="listing-43321027">
-      <header class="card-header">
-        <div>
-          <h2><a href="https://www.funda.nl/detail/43321027" target="_blank" rel="noopener">Ruigenburg 31, Gouda</a></h2>
-          <p class="meta">Gouda · 2807 · 1985 · Label C</p>
-        </div>
-        <div class="badges">
-          <span class="verdict verdict-reject">淘汰</span>
-          <span class="total-score">21.5/30</span>
-        </div>
-      </header>
-
-      <div class="stats-grid">
-        <div><span class="label">挂牌价</span><span class="value">€325,000</span></div>
-        <div><span class="label">预估成交价</span><span class="value">€325,000</span></div>
-        <div><span class="label">真实总成本</span><span class="value">€331,000</span></div>
-        <div><span class="label">面积</span><span class="value">84 m²</span></div>
-        <div><span class="label">VvE/月</span><span class="value">€180</span></div>
-        <div><span class="label">月持有成本</span><span class="value">€180</span></div>
-      </div>
-
-      <table class="score-table">
-        <thead><tr><th>质量</th><th>面积</th><th>买菜</th><th>网球</th><th>交通</th><th>财务</th><th>总分</th></tr></thead>
-        <tbody><tr><td class="score-low">1.5</td><td class="score-mid">3.5</td><td class="score-high">5</td><td class="score-high">4.5</td><td class="score-low">2</td><td class="score-high">5</td><td class="total-cell">21.5</td></tr></tbody>
-      </table>
-
-      
-      <section class="pricing-box">
-        <h3>成交价预估 (Level 1 · CBS)</h3>
-        <div class="stats-grid">
-          <div><span class="label">CBS 公允价</span><span class="value">€296,533</span></div>
-          <div><span class="label">预估溢价</span><span class="value">0.0%</span></div>
-          <div><span class="label">置信度</span><span class="value">medium-high</span></div>
-          <div><span class="label">模型</span><span class="value">level1_cbs</span></div>
-        </div>
-        <p class="meta">挂牌已高于 CBS 公允价 €296,533，预估仅小幅溢价或平价成交。 模型预估成交 €325,000（较挂牌 +€0）。</p>
-      </section>
-        
-
-      <div class="two-col">
-        <section>
-          <h3>优点</h3>
-          <ul class="pros"><li>绝对最便宜，真实成本 ~€346k</li><li>Eigen grond，Lidl/Jumbo mall 极近</li><li>网球骑车方便，Gouda 生活成本低</li></ul>
-        </section>
-        <section>
-          <h3>缺点</h3>
-          <ul class="cons"><li>Energielabel C，1980 年代长廊公寓 — 硬指标不达标</li><li>去 Amsterdam Zuid 约 1 小时，通勤太远</li><li>84㎡ 不如预期大，出租对阿姆白领吸引力弱</li><li>未来能源改造/取暖费是隐形坑</li></ul>
-        </section>
-      </div>
-
-      <section class="vve-box">
-        <h3>VvE 分析</h3>
-        <p>老长廊公寓需重点看外立面/电梯/管道状况。C 级能效意味着更高 gas 账单和潜在改造分摊。</p>
-        <div class="flags"><span class="flag">energy_label_C</span><span class="flag">aging_galerijflat</span></div>
-        <p class="meta">Erfpacht: 永久产权</p>
-      </section>
-
-      <footer class="card-footer">
-        <span>分析日期: 2026-06-17</span>
-        <span>状态: rejected</span>
-      </footer>
-    </article>
-    
-    </section>
+<header class="page-header">
+  <div>
+    <h1>荷兰买房助手</h1>
+    <p>购房追踪 · 2026</p>
   </div>
+  <p>今日：2026-07-11</p>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('overview',this)">全部概览</button>
+  <button class="tab-btn" onclick="switchTab('liked',this)">偏好 (31)</button>
+  <button class="tab-btn" onclick="switchTab('viewed',this)">已看 (10)</button>
+  <button class="tab-btn" onclick="switchTab('vve',this)">VvE 审查 (8)</button>
+  <button class="tab-btn" onclick="switchTab('bidding',this)">竞价分析 (3)</button>
+  <button class="tab-btn" onclick="switchTab('area',this)">地段研究</button>
+</nav>
+
+<div id="tab-overview" class="tab-panel active">
+    <div class="stat-grid">
+      <div class="stat-card"><span class="stat-num">31</span><span class="stat-label">偏好房源</span></div>
+      <div class="stat-card"><span class="stat-num">10</span><span class="stat-label">已看</span></div>
+      <div class="stat-card"><span class="stat-num">8</span><span class="stat-label">VvE 已审查</span></div>
+      <div class="stat-card"><span class="stat-num">3</span><span class="stat-label">已出价分析</span></div>
+    </div>
+    <h3 class="section-title">最近看房记录</h3>
+    <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>地址</th><th>城市</th><th>看房日期</th><th>VvE 风险</th><th>标签</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Bos En Vaartlaan 45</strong></td>
+          <td>Amstelveen</td>
+          <td>2026-07-09</td>
+          <td><span class='badge badge-amber'>中高</span></td>
+          <td><span class='pill pill-blue'>已看</span><span class='pill pill-amber'>VvE✓</span><span class='pill pill-green'>竞价✓</span></td>
+        </tr>
+        <tr>
+          <td><strong>Concourslaan 86</strong></td>
+          <td>Hoofddorp</td>
+          <td>2026-07-08</td>
+          <td><span class='badge badge-amber'>中高</span></td>
+          <td><span class='pill pill-blue'>已看</span><span class='pill pill-amber'>VvE✓</span><span class='pill pill-green'>竞价✓</span></td>
+        </tr>
+        <tr>
+          <td><strong>Anna Blamansingel 19</strong></td>
+          <td>Amsterdam</td>
+          <td>2026-07-08</td>
+          <td><span class='badge badge-blue'>中</span></td>
+          <td><span class='pill pill-blue'>已看</span><span class='pill pill-amber'>VvE✓</span><span class='pill pill-green'>竞价✓</span></td>
+        </tr>
+        <tr>
+          <td><strong>Haardstee 29, Amsterdam (Bijlmer)</strong></td>
+          <td>Amsterdam</td>
+          <td>2026-07-04</td>
+          <td><span class='badge badge-red'>高风险</span></td>
+          <td><span class='pill pill-blue'>已看</span><span class='pill pill-amber'>VvE✓</span></td>
+        </tr>
+        <tr>
+          <td><strong>Heemraadweg 101</strong></td>
+          <td>Weesp</td>
+          <td>2026-07-04</td>
+          <td><span class='badge badge-red'>高风险</span></td>
+          <td><span class='pill pill-blue'>已看</span><span class='pill pill-amber'>VvE✓</span></td>
+        </tr></tbody>
+    </table>
+    </div>
+    <div class="area-link-row">
+      <a href="amsterdam-region-buying-2026.html" class="area-main-link">📋 阿姆周边买房综合看板</a>
+    </div></div>
+<div id="tab-liked"    class="tab-panel">
+    <p class="tab-intro">31 套偏好房源，按看房状态和评分排序。</p>
+    <div class="table-wrap">
+    <table class="data-table liked-table">
+      <thead>
+        <tr>
+          <th>地址</th><th>区域</th><th>面积</th><th>挂牌价</th>
+          <th>能效</th><th>VvE/月</th><th>总分/30</th><th>标签</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Haardstee 29, Amsterdam (Bijlmer)</strong><a href='https://www.funda.nl/detail/80838370' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-bijlmer'>bijlmer</span></td>
+          <td>91 m²</td>
+          <td>€345.000</td>
+          <td><span class='badge badge-blue'>B</span></td>
+          <td>€264</td>
+          <td class="score-high">24.5</td>
+          <td><span class='pill pill-blue'>已看</span><span class='pill pill-amber'>VvE✓</span></td>
+        </tr>
+        <tr>
+          <td><strong>Bos En Vaartlaan 45</strong><a href='https://www.funda.nl/detail/koop/amstelveen/appartement-bos-en-vaartlaan-45/44426958/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-amstelveen'>amstelveen</span></td>
+          <td>56 m²</td>
+          <td>—</td>
+          <td><span class='badge badge-amber'>C</span></td>
+          <td>€201</td>
+          <td class="score-mid">21.0</td>
+          <td><span class='pill pill-blue'>已看</span><span class='pill pill-amber'>VvE✓</span><span class='pill pill-green'>竞价✓</span></td>
+        </tr>
+        <tr>
+          <td><strong>Leksmondhof 313</strong><a href='https://www.funda.nl/detail/koop/amsterdam/appartement-leksmondhof-313/80862661/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-bijlmer'>bijlmer</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">21.0</td>
+          <td><span class='pill pill-blue'>已看</span></td>
+        </tr>
+        <tr>
+          <td><strong>Heemraadweg 101</strong><a href='https://www.funda.nl/detail/koop/weesp/appartement-heemraadweg-101/44404623/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-weesp'>weesp</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">20.5</td>
+          <td><span class='pill pill-blue'>已看</span><span class='pill pill-amber'>VvE✓</span></td>
+        </tr>
+        <tr>
+          <td><strong>Boeninlaan 389</strong><a href='https://www.funda.nl/detail/koop/amsterdam/appartement-boeninlaan-389/80864744/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-bijlmer'>bijlmer</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">20.0</td>
+          <td><span class='pill pill-blue'>已看</span><span class='pill pill-amber'>VvE✓</span></td>
+        </tr>
+        <tr>
+          <td><strong>Teakhout 29</strong><a href='https://www.funda.nl/detail/koop/zaandam/appartement-teakhout-29/44492615/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-zaandam'>zaandam</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">20.0</td>
+          <td><span class='pill pill-blue'>已看</span><span class='pill pill-amber'>VvE✓</span></td>
+        </tr>
+        <tr>
+          <td><strong>Duivelandselaan 35</strong><a href='https://www.funda.nl/detail/koop/amstelveen/appartement-duivelandselaan-35/44412372/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-amstelveen'>amstelveen</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">21.5</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Rembrandtweg 559</strong><a href='https://www.funda.nl/detail/koop/amstelveen/appartement-rembrandtweg-559/44419300/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-amstelveen'>amstelveen</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">21.5</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Schouwenselaan 75</strong><a href='https://www.funda.nl/detail/koop/amstelveen/appartement-schouwenselaan-75/44493093/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-amstelveen'>amstelveen</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">21.5</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Tholenseweg 22</strong><a href='https://www.funda.nl/detail/koop/amstelveen/appartement-tholenseweg-22/44483838/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-amstelveen'>amstelveen</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">21.5</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Zonnesteinhof 24</strong><a href='https://www.funda.nl/detail/koop/amstelveen/appartement-zonnesteinhof-24/44464587/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-amstelveen'>amstelveen</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">21.5</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Fort Heemstedestraat 83</strong><a href='https://www.funda.nl/detail/koop/weesp/appartement-fort-heemstedestraat-83/44496014/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-weesp'>weesp</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">21.5</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Louis Davidsstraat 250</strong><a href='https://www.funda.nl/detail/koop/almere/appartement-louis-davidsstraat-250/44458501/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-almere'>almere</span></td>
+          <td>96 m²</td>
+          <td>€350.000</td>
+          <td><span class='badge badge-green'>A</span></td>
+          <td>€251</td>
+          <td class="score-mid">21.0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Bijlmerdreef 1053</strong><a href='https://www.funda.nl/detail/koop/amsterdam/appartement-bijlmerdreef-1053/89602391/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-bijlmer'>bijlmer</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">21.0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Leksmondhof 217</strong><a href='https://www.funda.nl/detail/koop/amsterdam/appartement-leksmondhof-217/44419986/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-bijlmer'>bijlmer</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">21.0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Leksmondhof 32</strong><a href='https://www.funda.nl/detail/koop/amsterdam/appartement-leksmondhof-32/80856190/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-bijlmer'>bijlmer</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">21.0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Keizerstraat 28</strong><a href='https://www.funda.nl/detail/koop/almere/appartement-keizerstraat-28/44407386/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-almere'>almere</span></td>
+          <td>83 m²</td>
+          <td>€325.000</td>
+          <td><span class='badge badge-green'>A</span></td>
+          <td>€177</td>
+          <td class="score-mid">20.5</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Prokofjevstraat 88</strong><a href='https://www.funda.nl/detail/koop/almere/huis-prokofjevstraat-88/80866678/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-almere'>almere</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">20.5</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Zeistpad 42</strong><a href='https://www.funda.nl/detail/koop/almere/huis-zeistpad-42/44453969/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-almere'>almere</span></td>
+          <td>114 m²</td>
+          <td>€375.000</td>
+          <td><span class='badge badge-green'>A</span></td>
+          <td>—</td>
+          <td class="score-mid">20.5</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Barbusselaan 175</strong><a href='https://www.funda.nl/detail/koop/amsterdam/appartement-barbusselaan-175/80821531/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-bijlmer'>bijlmer</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">20.5</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Dijkgraafplein 14</strong><a href='https://www.funda.nl/detail/koop/amsterdam/appartement-dijkgraafplein-14/80818281/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-nieuw-west'>nieuw-west</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">20.5</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Dijkgraafplein 163</strong><a href='https://www.funda.nl/detail/koop/amsterdam/appartement-dijkgraafplein-163/43317021/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-nieuw-west'>nieuw-west</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">20.5</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Dijkgraafplein 311</strong><a href='https://www.funda.nl/detail/koop/amsterdam/appartement-dijkgraafplein-311/80860141/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-nieuw-west'>nieuw-west</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">20.5</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Pieter Calandlaan 720</strong><a href='https://www.funda.nl/detail/koop/amsterdam/appartement-pieter-calandlaan-720/80869364/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-nieuw-west'>nieuw-west</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">20.5</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Rachmaninovstraat 21</strong><a href='https://www.funda.nl/detail/koop/almere/huis-rachmaninovstraat-21/80875756/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-almere'>almere</span></td>
+          <td>88 m²</td>
+          <td>€395.000</td>
+          <td><span class='badge badge-green'>A</span></td>
+          <td>—</td>
+          <td class="score-mid">20.0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Ladogameerhof 253</strong><a href='https://www.funda.nl/detail/koop/amsterdam/appartement-ladogameerhof-253/44472010/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-nieuw-west'>nieuw-west</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">20.0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Ladogameerhof 277</strong><a href='https://www.funda.nl/detail/koop/amsterdam/appartement-ladogameerhof-277/80870826/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-nieuw-west'>nieuw-west</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">20.0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Teakhout 32</strong><a href='https://www.funda.nl/detail/koop/zaandam/appartement-teakhout-32/44415290/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-zaandam'>zaandam</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">20.0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Teakhout 40</strong><a href='https://www.funda.nl/detail/koop/zaandam/appartement-teakhout-40/89776878/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-zaandam'>zaandam</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">20.0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Fleerde 705</strong><a href='https://www.funda.nl/detail/koop/amsterdam/appartement-fleerde-705/89704975/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-bijlmer'>bijlmer</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">19.5</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Vurehout 44</strong><a href='https://www.funda.nl/detail/koop/zaandam/huis-vurehout-44/80857078/' target='_blank' class='btn-link'>Funda</a></td>
+          <td><span class='region-tag region-zaandam'>zaandam</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td class="score-mid">19.5</td>
+          <td></td>
+        </tr></tbody>
+    </table>
+    </div></div>
+<div id="tab-viewed"   class="tab-panel">
+    <p class="tab-intro">10 套已实地看房记录。</p>
+    <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>地址</th><th>城市</th><th>面积</th><th>能效</th>
+          <th>VvE/月</th><th>VvE 风险</th><th>看房日期</th><th>文件</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Bos En Vaartlaan 45</strong><a href='https://www.funda.nl/detail/koop/amstelveen/appartement-bos-en-vaartlaan-45/44426958/' target='_blank' class='btn-link'>Funda</a></td>
+          <td>Amstelveen</td>
+          <td>56 m²</td>
+          <td><span class='badge badge-amber'>C</span></td>
+          <td>€201/月</td>
+          <td><span class='badge badge-amber'>中高</span></td>
+          <td>2026-07-09</td>
+          <td><a href='viewing/documents-summary/bos-en-vaartlaan-45-amstelveen.md' target='_blank' class='btn-link'>VvE文件</a> <a href='viewing/bos-en-vaartlaan45/bidding-price/bidding-strategy.md' target='_blank' class='btn-link'>竞价策略</a></td>
+        </tr>
+        <tr>
+          <td><strong>Concourslaan 86</strong></td>
+          <td>Hoofddorp</td>
+          <td>80 m²</td>
+          <td><span class='badge badge-blue'>B</span></td>
+          <td>€269/月</td>
+          <td><span class='badge badge-amber'>中高</span></td>
+          <td>2026-07-08</td>
+          <td><a href='viewing/documents-summary/concorselaan-86-hoofddorp.md' target='_blank' class='btn-link'>VvE文件</a> <a href='viewing/concorselaan-hoofddorp centurm/bidding-price/bidding-strategy.md' target='_blank' class='btn-link'>竞价策略</a></td>
+        </tr>
+        <tr>
+          <td><strong>Anna Blamansingel 19</strong></td>
+          <td>Amsterdam</td>
+          <td>49 m²</td>
+          <td><span class='badge badge-green'>A</span></td>
+          <td>€171/月</td>
+          <td><span class='badge badge-blue'>中</span></td>
+          <td>2026-07-08</td>
+          <td><a href='viewing/documents-summary/venspolder-anna-blamansingel-19.md' target='_blank' class='btn-link'>VvE文件</a> <a href='viewing/venspolder/bidding-price/bidding-strategy.md' target='_blank' class='btn-link'>竞价策略</a></td>
+        </tr>
+        <tr>
+          <td><strong>Haardstee 29, Amsterdam (Bijlmer)</strong><a href='https://www.funda.nl/detail/80838370' target='_blank' class='btn-link'>Funda</a></td>
+          <td>Amsterdam</td>
+          <td>91 m²</td>
+          <td><span class='badge badge-blue'>B</span></td>
+          <td>€264/月</td>
+          <td><span class='badge badge-red'>高风险</span></td>
+          <td>2026-07-04</td>
+          <td><a href='viewing/documents-summary/hardstee29.md' target='_blank' class='btn-link'>VvE文件</a> </td>
+        </tr>
+        <tr>
+          <td><strong>Heemraadweg 101</strong><a href='https://www.funda.nl/detail/koop/weesp/appartement-heemraadweg-101/44404623/' target='_blank' class='btn-link'>Funda</a></td>
+          <td>Weesp</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td><span class='badge badge-red'>高风险</span></td>
+          <td>2026-07-04</td>
+          <td><a href='viewing/documents-summary/weesp-heemraadweg-101.md' target='_blank' class='btn-link'>VvE文件</a> </td>
+        </tr>
+        <tr>
+          <td><strong>Boeninlaan 389</strong><a href='https://www.funda.nl/detail/koop/amsterdam/appartement-boeninlaan-389/80864744/' target='_blank' class='btn-link'>Funda</a></td>
+          <td>Amsterdam</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td><span class='badge badge-red'>高风险</span></td>
+          <td>2026-07-04</td>
+          <td><a href='viewing/documents-summary/bijlmer-boeninlaan-389.md' target='_blank' class='btn-link'>VvE文件</a> </td>
+        </tr>
+        <tr>
+          <td><strong>Teakhout 29</strong><a href='https://www.funda.nl/detail/koop/zaandam/appartement-teakhout-29/44492615/' target='_blank' class='btn-link'>Funda</a></td>
+          <td>Zaandam</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td><span class='badge badge-red'>高风险</span></td>
+          <td>2026-07-04</td>
+          <td><a href='viewing/documents-summary/zaandam-teakhout-29.md' target='_blank' class='btn-link'>VvE文件</a> </td>
+        </tr>
+        <tr>
+          <td><strong>Hoofdweg 854V</strong></td>
+          <td>Hoofddorp</td>
+          <td>51 m²</td>
+          <td><span class='badge badge-green'>A</span></td>
+          <td>€147/月</td>
+          <td><span class='badge badge-blue'>中</span></td>
+          <td>2026-07-04</td>
+          <td><a href='viewing/documents-summary/hoofdweg-854v-hoofddorp.md' target='_blank' class='btn-link'>VvE文件</a> </td>
+        </tr>
+        <tr>
+          <td><strong>Leksmondhof 313</strong><a href='https://www.funda.nl/detail/koop/amsterdam/appartement-leksmondhof-313/80862661/' target='_blank' class='btn-link'>Funda</a></td>
+          <td>Amsterdam</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>待审</span></td>
+          <td>—</td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td><strong>Havikskruid 145</strong></td>
+          <td>Diemen</td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>—</span></td>
+          <td>—</td>
+          <td><span class='badge badge-gray'>待审</span></td>
+          <td>—</td>
+          <td> </td>
+        </tr></tbody>
+    </table>
+    </div></div>
+<div id="tab-vve"      class="tab-panel">
+    <p class="tab-intro">8 套已完成 VvE 文件审查，按风险高低排序。</p>
+    <div class="vve-grid">
+        <div class="vve-card">
+          <div class="vve-card-header">
+            <div>
+              <strong class="vve-addr">Haardstee 29, Amsterdam (Bijlmer)</strong>
+              <span class="vve-city">Amsterdam</span>
+            </div>
+            <span class='badge badge-red'>高风险</span>
+          </div>
+          <div class="vve-verdict">值得看房（务实派：空间+交通，妥协房龄）</div>
+          <div class="flags-row"><span class='flag'>future_reserve_gap</span><span class='flag'>planned_major_work</span></div>
+          <div class="vve-links"><a href='viewing/documents-summary/hardstee29.md' target='_blank' class='btn-link'>完整审查报告</a></div>
+        </div>
+        <div class="vve-card">
+          <div class="vve-card-header">
+            <div>
+              <strong class="vve-addr">Heemraadweg 101</strong>
+              <span class="vve-city">Weesp</span>
+            </div>
+            <span class='badge badge-red'>高风险</span>
+          </div>
+          <div class="vve-verdict">谨慎/接近淘汰：除非能源规则可豁免且折价明显</div>
+          <div class="flags-row"><span class='flag'>energy_label_below_B</span><span class='flag'>future_reserve_gap</span><span class='flag'>planned_major_work</span></div>
+          <div class="vve-links"><a href='viewing/documents-summary/weesp-heemraadweg-101.md' target='_blank' class='btn-link'>完整审查报告</a></div>
+        </div>
+        <div class="vve-card">
+          <div class="vve-card-header">
+            <div>
+              <strong class="vve-addr">Boeninlaan 389</strong>
+              <span class="vve-city">Amsterdam</span>
+            </div>
+            <span class='badge badge-red'>高风险</span>
+          </div>
+          <div class="vve-verdict">谨慎备选：交通强，但 VvE 风险要求明显折价</div>
+          <div class="flags-row"><span class='flag'>planned_major_work</span><span class='flag'>future_reserve_gap</span><span class='flag'>moisture_history</span></div>
+          <div class="vve-links"><a href='viewing/documents-summary/bijlmer-boeninlaan-389.md' target='_blank' class='btn-link'>完整审查报告</a></div>
+        </div>
+        <div class="vve-card">
+          <div class="vve-card-header">
+            <div>
+              <strong class="vve-addr">Teakhout 29</strong>
+              <span class="vve-city">Zaandam</span>
+            </div>
+            <span class='badge badge-red'>高风险</span>
+          </div>
+          <div class="vve-verdict">备选偏谨慎：硬件好，但 erfpacht/VvE 必须拆清</div>
+          <div class="flags-row"><span class='flag'>erfpacht_trap</span><span class='flag'>split_vve_entities</span><span class='flag'>planned_major_work</span><span class='flag'>future_reserve_gap</span></div>
+          <div class="vve-links"><a href='viewing/documents-summary/zaandam-teakhout-29.md' target='_blank' class='btn-link'>完整审查报告</a></div>
+        </div>
+        <div class="vve-card">
+          <div class="vve-card-header">
+            <div>
+              <strong class="vve-addr">Bos En Vaartlaan 45</strong>
+              <span class="vve-city">Amstelveen</span>
+            </div>
+            <span class='badge badge-amber'>中高</span>
+          </div>
+          <div class="vve-verdict">中高风险：只有价格明显折价且能接受 energy C 才继续</div>
+          <div class="flags-row"><span class='flag'>energy_label_below_B</span><span class='flag'>reserve_subfund_negative</span><span class='flag'>planned_major_work</span><span class='flag'>blokverwarming_cost_risk</span><span class='flag'>moisture_history</span></div>
+          <div class="vve-links"><a href='viewing/documents-summary/bos-en-vaartlaan-45-amstelveen.md' target='_blank' class='btn-link'>完整审查报告</a></div>
+        </div>
+        <div class="vve-card">
+          <div class="vve-card-header">
+            <div>
+              <strong class="vve-addr">Concourslaan 86</strong>
+              <span class="vve-city">Hoofddorp</span>
+            </div>
+            <span class='badge badge-amber'>中高</span>
+          </div>
+          <div class="vve-verdict">中高风险：三层 VvE 财务混乱、漏水风险，需价格折价</div>
+          <div class="flags-row"><span class='flag'>split_vve_entities</span><span class='flag'>planned_major_work</span><span class='flag'>measurement_mismatch</span><span class='flag'>governance_watch</span></div>
+          <div class="vve-links"><a href='viewing/documents-summary/concorselaan-86-hoofddorp.md' target='_blank' class='btn-link'>完整审查报告</a></div>
+        </div>
+        <div class="vve-card">
+          <div class="vve-card-header">
+            <div>
+              <strong class="vve-addr">Hoofdweg 854V</strong>
+              <span class="vve-city">Hoofddorp</span>
+            </div>
+            <span class='badge badge-blue'>中</span>
+          </div>
+          <div class="vve-verdict">中风险：面积偏小，潮湿待核实，2030 年 MJOP 支出集中</div>
+          <div class="flags-row"><span class='flag'>moisture_history</span><span class='flag'>planned_major_work</span></div>
+          <div class="vve-links"><a href='viewing/documents-summary/hoofdweg-854v-hoofddorp.md' target='_blank' class='btn-link'>完整审查报告</a></div>
+        </div>
+        <div class="vve-card">
+          <div class="vve-card-header">
+            <div>
+              <strong class="vve-addr">Anna Blamansingel 19</strong>
+              <span class="vve-city">Amsterdam</span>
+            </div>
+            <span class='badge badge-blue'>中</span>
+          </div>
+          <div class="vve-verdict">中风险：含车位但面积小，缺 VvE 核心文件，出租状态需确认</div>
+          <div class="flags-row"><span class='flag'>missing_vve_core_docs</span><span class='flag'>rental_status_verify</span><span class='flag'>moisture_history</span></div>
+          <div class="vve-links"><a href='viewing/documents-summary/venspolder-anna-blamansingel-19.md' target='_blank' class='btn-link'>完整审查报告</a></div>
+        </div></div></div>
+<div id="tab-bidding"  class="tab-panel">
+    <p class="tab-intro">3 套已完成竞价分析。</p>
+    <div class="bid-grid">
+        <div class="bid-card">
+          <div class="bid-card-header">
+            <h3>Bos En Vaartlaan 45<span class="bid-city">· Amstelveen</span></h3>
+            <span class='badge badge-amber'>中高</span>
+          </div>
+          <div class="bid-stats">
+            <span>挂牌价：—</span>
+            <span>能效：<span class='badge badge-amber'>C</span></span>
+            <span>面积：56 m²</span>
+          </div>
+          <div class="bid-verdict">中高风险：只有价格明显折价且能接受 energy C 才继续</div>
+          <div class="bid-links"><a href='viewing/bos-en-vaartlaan45/bidding-price/bidding-strategy.md' target='_blank' class='btn-link'>竞价策略文件</a></div>
+        </div>
+        <div class="bid-card">
+          <div class="bid-card-header">
+            <h3>Concourslaan 86<span class="bid-city">· Hoofddorp</span></h3>
+            <span class='badge badge-amber'>中高</span>
+          </div>
+          <div class="bid-stats">
+            <span>挂牌价：—</span>
+            <span>能效：<span class='badge badge-blue'>B</span></span>
+            <span>面积：80 m²</span>
+          </div>
+          <div class="bid-verdict">中高风险：三层 VvE 财务混乱、漏水风险，需价格折价</div>
+          <div class="bid-links"><a href='viewing/concorselaan-hoofddorp centurm/bidding-price/bidding-strategy.md' target='_blank' class='btn-link'>竞价策略文件</a></div>
+        </div>
+        <div class="bid-card">
+          <div class="bid-card-header">
+            <h3>Anna Blamansingel 19<span class="bid-city">· Amsterdam</span></h3>
+            <span class='badge badge-blue'>中</span>
+          </div>
+          <div class="bid-stats">
+            <span>挂牌价：€325.000</span>
+            <span>能效：<span class='badge badge-green'>A</span></span>
+            <span>面积：49 m²</span>
+          </div>
+          <div class="bid-verdict">中风险：含车位但面积小，缺 VvE 核心文件，出租状态需确认</div>
+          <div class="bid-links"><a href='viewing/venspolder/bidding-price/bidding-strategy.md' target='_blank' class='btn-link'>竞价策略文件</a></div>
+        </div></div></div>
+<div id="tab-area"     class="tab-panel">
+    <div class="area-top-link">
+      <a href="amsterdam-region-buying-2026.html" class="area-main-btn">阿姆周边买房综合看板 →</a>
+    </div>
+    <div class="area-grid">
+        <a href="community/almere.html" class="area-card">
+          <div class="area-card-header">
+            <span class="area-name">Almere</span>
+            <span class="tier-badge tier-b">B 级</span>
+          </div>
+          <div class="area-desc">面积最大，B 级通勤，预算效率高；出租有限制</div>
+        </a>
+        <a href="community/amstelveen.html" class="area-card">
+          <div class="area-card-header">
+            <span class="area-name">Amstelveen</span>
+            <span class="tier-badge tier-s">S 级</span>
+          </div>
+          <div class="area-desc">近 Zuid/VU，生活配套强；预算紧，面积小</div>
+        </a>
+        <a href="community/bijlmer.html" class="area-card">
+          <div class="area-card-header">
+            <span class="area-name">Bijlmer</span>
+            <span class="tier-badge tier-s">S 级</span>
+          </div>
+          <div class="area-desc">S 级通勤直达 Zuid；需按楼栋 VvE 精筛</div>
+        </a>
+        <a href="community/gaasperplas.html" class="area-card">
+          <div class="area-card-header">
+            <span class="area-name">Gaasperplas</span>
+            <span class="tier-badge tier-s">S 级</span>
+          </div>
+          <div class="area-desc">湖区绿地，重点看面积和车位</div>
+        </a>
+        <a href="community/hoofddorp.html" class="area-card">
+          <div class="area-card-header">
+            <span class="area-name">Hoofddorp</span>
+            <span class="tier-badge tier-a">A 级</span>
+          </div>
+          <div class="area-desc">省心通勤型，Schiphol 方向基准</div>
+        </a>
+        <a href="community/nieuw-west.html" class="area-card">
+          <div class="area-card-header">
+            <span class="area-name">Nieuw-West</span>
+            <span class="tier-badge tier-s">S 级</span>
+          </div>
+          <div class="area-desc">阿姆位置属性；需按 buurt 精筛</div>
+        </a>
+        <a href="community/weesp.html" class="area-card">
+          <div class="area-card-header">
+            <span class="area-name">Weesp</span>
+            <span class="tier-badge tier-a">A 级</span>
+          </div>
+          <div class="area-desc">小城稳定，火车强，供应少</div>
+        </a>
+        <a href="community/zaandam.html" class="area-card">
+          <div class="area-card-header">
+            <span class="area-name">Zaandam</span>
+            <span class="tier-badge tier-a">A 级</span>
+          </div>
+          <div class="area-desc">到 AMS CS 强；注意 erfpacht 和多 VvE</div>
+        </a></div></div>
+
+</div>
+<script>
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
 </body>
 </html>
