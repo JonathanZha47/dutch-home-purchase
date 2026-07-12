@@ -83,6 +83,7 @@ def generate_html(inbox: dict) -> str:
     <nav class="top-nav">
       <a href="index.html">深度分析看板</a>
       <a href="search-board.html" class="active">搜房 Inbox</a>
+      <a href="amsterdam-region-buying-2026.html">区域/社区</a>
     </nav>
     <header class="page">
       <h1>搜房 Inbox · 互动看板</h1>

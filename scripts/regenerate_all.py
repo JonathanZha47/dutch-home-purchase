@@ -12,6 +12,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from sync_inbox import main as sync_inbox
 from generate_search_board import main as gen_search
 from generate_dashboard import main as gen_dashboard
+from generate_hub import main as gen_hub
 
 
 def main() -> None:
@@ -19,6 +20,7 @@ def main() -> None:
     gen_search()
     sys.argv = ["generate_dashboard.py"]
     gen_dashboard()
+    gen_hub()
 
 
 if __name__ == "__main__":
