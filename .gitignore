@@ -10,3 +10,17 @@ venv/
 # Private viewing / VvE documents — do not publish
 move-documents/
 move-documents.zip
+
+# Raw property PDFs and binary documents in viewing folders
+viewing/**/*.pdf
+viewing/**/*.zip
+viewing/**/*.jpg
+viewing/**/*.jpeg
+viewing/**/*.png
+viewing/**/*.csv
+
+# Personal mortgage documents
+mortgage/reyiweimortgagedocuments/
+
+# Temporary files
+tmp/
